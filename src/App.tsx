@@ -1,40 +1,24 @@
 import React from 'react';
+import AppHeader from './components/AppHeader'
+import CoursePreview from './components/CoursePreview';
 
 function App() {
   return (
     <div className="app-container">
-      <header className="app-header">
-        <div className="logo-container">        
-          Profound
-        </div>
-        <div className="search-container"></div>
-        <nav>
-            <a href="#">Sign in</a>
-            <a href="#">Sign up</a>
-        </nav>
-    </header>
-
-    <div className="content">
-                <section className="section">
-                    <header className="section-header">
-                        <h1>Catalog</h1>
-                    </header>
-                    <div className="course-list">
-                        <div className="course-preview">
-                            <div className="preview-img-container">
-                            </div>
-                            <div className="preview-info">
-                                <h4 className="preview-title">Calligraphy</h4>
-                                <p className="preview-description">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam at culpa, eum impedit iste, laboriosam maxime modi nisi qui quis quisquam reprehenderit tempore
-                                </p>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </section>
+      <AppHeader/>
+      <div className="content">
+        <section className="section">
+            <h3 className="section-titile">Popular courses</h3>
+            <div className="course-list">
+                <CoursePreview 
+                    title="Deep Learning (семестр 1, осень 2020): базовый" 
+                    creator="Школа глубокого обучения МФТИ"
+                    price="15$"
+                    onClick={() => console.log("hehe")}
+                    />
             </div>
+        </section>
+    </div>
     </div>
   );
 }
