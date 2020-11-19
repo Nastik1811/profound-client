@@ -14,7 +14,7 @@ $desktop-max-width: 1180px;
 $font-small: .75rem;
 $font-medium: 1.125rem;
 $font-large: 1.75rem; 
-$box-shadow-regular:  -3px 3px 10px rgba(88, 94, 92, 0.2);
+$box-shadow-regular:  -2px 2px 5px rgba(100, 126, 117, 0.2);
 $box-shadow-regular--hover: -3px 3px 10px rgba(88, 94, 92, 0.3);
 $transition-regular: all .2s ease;
 
@@ -137,4 +137,48 @@ html, body{
   font-size: $font-large;
   font-weight: 400;
   margin-bottom: 16px;
+}
+
+.user-menu{
+  margin: auto;
+}
+.user-img{
+  background-image: url('./assets/images/user_img.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 12px;
+}
+.menu-list{
+  list-style: none;
+  li{
+    margin-bottom: 24px;
+    height: fit-content;
+  }
+}
+.menu-link{
+  cursor: pointer;
+  font-size: $font-medium;
+  padding: 8px 12px;
+  transition: $transition-regular;
+  border-radius: 16px;
+
+  &:hover, &:focus{
+    background-color: #ECF8F4;
+  }
+  &.active{
+    background-color: #ECF8F4;
+  }
+}
+
+.home{
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  margin-top: 80px;
+
+  .course-preview{
+    width: 100%;
+    background-color: #d8f1f5;
+  }
 }
