@@ -1,5 +1,10 @@
 import React from 'react'
-import CoursePreview from './CoursePreview'
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom'
+import CurrentCourses from './CurrentCourses'
+import Achievements from './Achievements'
+import CreatedCourses from './CreatedCourses'
+import UserMenu from '../../components/UserMenu'
+
 
 
 const HomePage = () => {
@@ -7,32 +12,15 @@ const HomePage = () => {
     <div className="content home">
         <div className="user-menu">
             <div className="user-img"></div>
-            <nav>
-                <ul className="menu-list">
-                    <li>
-                        <a className="menu-link active">My courses</a>
-                    </li>
-                    <li>
-                        <a className="menu-link">Created courses</a>
-                    </li>
-                    <li>
-                        <a className="menu-link">Achievements</a>
-                    </li>
-                    <li>
-                        <button className="logout-link">Log out</button>
-                    </li>
-                </ul>
-            </nav>
+            <UserMenu className="menu-list"/>
         </div>
-        <section className="section">
-            <h3 className="section-titile">Current courses</h3>
-            <CoursePreview 
-                    title="Deep Learning (семестр 1, осень 2020): базовый" 
-                    creator="Школа глубокого обучения МФТИ"
-                    price="15$"
-                    onClick={() => console.log("hehe")}
-                    />
-        </section>
+        <Switch>
+            <Route path="/home/in_progress" children={<CurrentCourses/>}/>
+            <Route path="/home/own_courses" children={<CreatedCourses/>}/>
+            <Route path="/home/achivements" children={<Achievements/>} />   
+            <Redirect to="/home/in_progress"/>
+        </Switch>
+        
     </div>
     )
 }
