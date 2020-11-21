@@ -14,6 +14,7 @@ $desktop-max-width: 1180px;
 $font-small: .75rem;
 $font-medium: 1.125rem;
 $font-large: 1.75rem; 
+$font-extra-large: 2.5rem; 
 $box-shadow-regular:  -2px 2px 5px rgba(100, 126, 117, 0.2);
 $box-shadow-regular--hover: -3px 3px 10px rgba(88, 94, 92, 0.3);
 $transition-regular: all .2s ease;
@@ -28,11 +29,18 @@ html, body{
   padding: 0;
   box-sizing: border-box;
 }
-
+button{
+  cursor: pointer;
+  font-family: 'Roboto';
+}
 #root{
   display: flex;
   min-height: 100%;
   background-color: #FAFFFC;
+}
+
+.hidden{
+  display: hidden;
 }
 
 .app-container{
@@ -47,6 +55,13 @@ html, body{
   background-color: #F2F6F5;
   background-color: darken(#FAFFFC, 1%);
   box-shadow: 0 1px 8px rgba(77, 86, 90, 0.2);
+}
+.logo{
+  width: 140px;
+  height: 30px;
+  background-image: url(./assets/images/Profound.png);
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .app-nav{
@@ -150,26 +165,67 @@ html, body{
   height: 180px;
   margin-bottom: 12px;
 }
+
 .menu-list{
   list-style: none;
-  li{
-    margin-bottom: 24px;
-    height: fit-content;
-  }
 }
+
+.dropdown{
+  position: relative;
+  width: 190px;
+}
+
+.menu-list-dropdown{
+  background-color:  #37a5a58e;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  position: absolute;
+  top: 35px;
+  list-style: none;
+  border-radius: 5px;
+}
+
 .menu-link{
   cursor: pointer;
-  font-size: $font-medium;
+  text-decoration: none;
+  color: black;
   padding: 8px 12px;
   transition: $transition-regular;
-  border-radius: 16px;
+  display: block;
+  margin-top: 8px;
+}
 
+.menu-list .menu-link{
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: $font-medium;
+  width: fit-content;
   &:hover, &:focus{
     background-color: #ECF8F4;
   }
   &.active{
     background-color: #ECF8F4;
   }
+}
+
+.dropdown .menu-link{
+  margin: auto;
+  text-align: center;
+  &:hover, &:focus{
+    background-color: #37a5a58e;
+  }
+  &.active{
+    background-color: #37a5a58e;
+  }
+}
+
+.logout-btn{
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .home{
@@ -181,4 +237,80 @@ html, body{
     width: 100%;
     background-color: #d8f1f5;
   }
+}
+
+
+.auth-container{
+  position: relative;
+  margin:auto;
+  //background-image: url(./assets/images/backgraund.svg);
+  //background-repeat: no-repeat;
+  //background-size: contain;
+}
+
+.auth-form{
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: auto;
+}
+
+.input{
+  width: 100%;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: #191e1e;
+  margin-bottom: 1em;
+  padding: 15px 10px 10px;
+
+  border: none;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent transparent #578a8a transparent ;
+  border-radius: 5px;
+
+  transition: $transition-regular;
+
+  &::placeholder{
+    color: var(--color-cyan);
+    font-weight: 500;
+  }
+
+  &:focus{
+    outline: none;
+    border-color: #578a8a;
+    background-color: #ECF8F4;
+    opacity: 100%;
+    border: 2px solid #578a8a;
+  }
+}
+
+.submit-btn{
+  font-size: $font-medium;
+  transition: $transition-regular;
+  border-radius: 5px;
+  border: none;
+  background-color: #393d3d;
+  color: white;
+  padding: 12px 20px;
+  font-weight: 600;
+
+  &:hover, &:focus{
+    background-color: #578a8a;
+    outline: none;
+  }
+}
+
+.auth-submit{
+  margin-top: 1rem;
+  align-self: flex-end;
+}
+
+
+.title{
+  font-size: $font-extra-large;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 300;
+  text-align: center;
 }
