@@ -3,7 +3,6 @@ import CoursePreview from '../../components/CoursePreview'
 
 const DiscoverPage = () => {
     return(
-        <div className="content">
         <section className="section">
             <h3 className="section-titile">Popular courses</h3>
             <div className="course-list">
@@ -15,7 +14,6 @@ const DiscoverPage = () => {
                     />
             </div>
         </section>
-    </div>
     )
 }
 

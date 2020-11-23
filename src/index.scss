@@ -10,7 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-$desktop-max-width: 1180px;
+$desktop-max-width: 1240px;
 $font-small: .75rem;
 $font-medium: 1.125rem;
 $font-large: 1.75rem; 
@@ -51,38 +51,40 @@ button{
 
 .app-header{
   width: 100%;
-  height: 50px;
-  background-color: #F2F6F5;
-  background-color: darken(#FAFFFC, 1%);
-  box-shadow: 0 1px 8px rgba(77, 86, 90, 0.2);
+  height: 90px;
+  z-index: 10;
+  //background-color: #F2F6F5;
+  //background-color: darken(#FAFFFC, 1%);
+  //box-shadow: 0 1px 8px rgba(77, 86, 90, 0.2);
 }
+.logo-container{
+  position: absolute;
+  left: 40px;
+  top: 12px;
+  z-index: 10;
+}
+
 .logo{
-  width: 140px;
-  height: 30px;
+  width: 160px;
+  height: 50px;
   background-image: url(./assets/images/Profound.png);
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .app-nav{
-  width: $desktop-max-width;
-  height: 100%;
-  margin: auto;
-  display: flex;
-  align-items: center;
-}
-
-.logo-container{
-  font-size: 2rem;
+  position: absolute;
+  right: 40px;
+  top: 24px;
 }
 
 .search-container{
   max-width: 500px;
   width: 100%;
-  height: 30px;
+  height: 35px;
   margin: auto;
-  background-color: rgba(46, 95, 118, 0.06);
-  border-radius: 15px;
+  background-color: rgba(198, 229, 214, 0.3);
+  border-radius: 25px;
   flex-grow: 1;
 }
 
@@ -90,7 +92,7 @@ button{
   width: 100%;
   max-width: $desktop-max-width;
   margin: auto;
-  margin-top: 40px;
+  margin-top: 100px;
 }
 
 .course-list{
@@ -144,6 +146,10 @@ button{
   text-decoration: none;
   color: black;
   margin-left: 12px;
+  background-color: rgba(198, 229, 214, 0.28);
+  border-radius: 45px;
+  padding: 8px 28px;
+  font-size: $font-medium;
 }
 .section{
   padding: 0 40px;
@@ -154,16 +160,42 @@ button{
   margin-bottom: 16px;
 }
 
-.user-menu{
+.home{
+  display: flex;
+  justify-content: center;
+  max-width: 1060px;
+  width: 90%;
   margin: auto;
+  .course-preview{
+    width: 100%;
+    background-color: #ECF8F4;
+  }
 }
+
+.user-menu{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 270px;
+  height: 550px;
+  padding: 28px;
+  background-color: rgba(164, 206, 185, 0.42);
+  border-radius: 5px 45px 5px 5px;
+}
+
 .user-img{
-  background-image: url('./assets/images/user_img.png');
+  margin-top: 20px;
+  background-image: url('./assets/images/user.svg');
   background-size: contain;
   background-repeat: no-repeat;
-  width: 180px;
-  height: 180px;
-  margin-bottom: 12px;
+  width: 140px;
+  height: 140px;
+  margin: 24px auto;
+}
+.home-section{
+ flex-grow: 1;
+ margin-left: 12px;
+ padding: 12px;
 }
 
 .menu-list{
@@ -171,19 +203,30 @@ button{
 }
 
 .dropdown{
-  position: relative;
+  position: absolute;
   width: 190px;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 45px;
+  font-size: $font-medium;
+  background-color: rgba(198, 229, 214, 0.3);
+  z-index: 10;
 }
 
 .menu-list-dropdown{
-  background-color:  #37a5a58e;
+  background-color:  rgb(211, 233, 222);
   display: flex;
   width: 100%;
   flex-direction: column;
   position: absolute;
-  top: 35px;
+  top: 45px;
+  right: 0;
   list-style: none;
-  border-radius: 5px;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .menu-link{
@@ -194,6 +237,13 @@ button{
   transition: $transition-regular;
   display: block;
   margin-top: 8px;
+
+  &:hover, &:focus{
+    background-color: #ECF8F4;
+  }
+  &.active{
+    background-color: #ECF8F4;
+  }
 }
 
 .menu-list .menu-link{
@@ -212,12 +262,6 @@ button{
 .dropdown .menu-link{
   margin: auto;
   text-align: center;
-  &:hover, &:focus{
-    background-color: #37a5a58e;
-  }
-  &.active{
-    background-color: #37a5a58e;
-  }
 }
 
 .logout-btn{
@@ -228,16 +272,6 @@ button{
   font-size: inherit;
 }
 
-.home{
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  margin-top: 80px;
-
-  .course-preview{
-    width: 100%;
-    background-color: #d8f1f5;
-  }
-}
 
 
 .auth-container{
@@ -313,4 +347,43 @@ button{
   color: #333;
   font-weight: 300;
   text-align: center;
+}
+
+.with-sidebar{
+  margin-left: 300px;
+}
+
+.sidebar{
+  width: 270px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #D7EBE1;
+  border-radius: 0 45px 0 0;
+}
+
+.course-menu{
+  margin:  100px 4px auto 24px;
+  list-style: none;
+}
+
+.module-name{
+  font-weight: 500 ;
+  margin-top: 12px;
+  font-size: $font-medium;
+}
+
+.lessons-list{
+  list-style: none;
+  margin-left: 8px;
+  li{
+    font-weight: 400 ;
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+}
+
+.course-component{
+  margin: auto 60px;
 }

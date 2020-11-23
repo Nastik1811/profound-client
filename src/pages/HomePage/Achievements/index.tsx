@@ -2,7 +2,7 @@ import React from 'react'
 
 const Achievements = () => {
     return(
-        <section className="section">
+        <section className="home-section">
             <h3 className="section-titile">Achievements</h3>
         </section>
     )

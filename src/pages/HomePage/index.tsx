@@ -9,7 +9,7 @@ import UserMenu from '../../components/UserMenu'
 
 const HomePage = () => {
     return(
-    <div className="content home">
+    <div className="home">
         <div className="user-menu">
             <div className="user-img"></div>
             <UserMenu className="menu-list"/>
