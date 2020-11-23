@@ -13,8 +13,7 @@ function App() {
   const isAuthorized:boolean = true
   return (
     <div className="app-container">
-      {/* <AppLogo/>
-      <AppNavigation isAuthorized={isAuthorized}/> */}
+      <AppNavigation isAuthorized={isAuthorized}/> 
 
         <Switch>
           <Route exact path="/" component={DiscoverPage}/>
