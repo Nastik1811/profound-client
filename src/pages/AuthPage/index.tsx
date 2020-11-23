@@ -6,6 +6,7 @@ import SignupForm from './SignupForm'
 const AuthPage = () => {
     
     return(
+      <div className="content ">
             <div className="auth-container">
                 <div className="img-container">
                 </div>
@@ -15,6 +16,7 @@ const AuthPage = () => {
                     <Redirect to="/auth/login"/>
                 </Switch>
             </div>
+        </div>
     )
 }
 

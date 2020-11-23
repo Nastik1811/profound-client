@@ -39,9 +39,6 @@ button{
   background-color: #FAFFFC;
 }
 
-.hidden{
-  display: hidden;
-}
 
 .app-container{
   width: 100%;
@@ -96,15 +93,15 @@ button{
 }
 
 .course-list{
+  margin-top: 16px;
   display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, 260px);
+  grid-template-columns: repeat(auto-fit, 270px) ;
   gap: 20px;
 }
 
 .course-preview{
   cursor: pointer;
-  width: 260px;
+  width: 270px;
   height: 170px;
   border-radius: 5px;
   box-shadow: $box-shadow-regular;
@@ -151,13 +148,17 @@ button{
   padding: 8px 28px;
   font-size: $font-medium;
 }
+
 .section{
   padding: 0 40px;
+  display: flex;
+  flex-direction: column;
 }
-.section-titile{
+
+.section-title{
   font-size: $font-large;
   font-weight: 400;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .home{
@@ -176,7 +177,7 @@ button{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 270px;
+  width: 250px;
   height: 550px;
   padding: 28px;
   background-color: rgba(164, 206, 185, 0.42);
@@ -184,7 +185,6 @@ button{
 }
 
 .user-img{
-  margin-top: 20px;
   background-image: url('./assets/images/user.svg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -349,9 +349,7 @@ button{
   text-align: center;
 }
 
-.with-sidebar{
-  margin-left: 300px;
-}
+
 
 .sidebar{
   width: 270px;
@@ -359,31 +357,145 @@ button{
   left: 0;
   top: 0;
   bottom: 0;
-  background-color: #D7EBE1;
-  border-radius: 0 45px 0 0;
+  background-color: #31625D;
+  border-radius: 0 60px 0 0;
+  box-shadow: -10px 10px 20px #49585673;
 }
 
 .course-menu{
-  margin:  100px 4px auto 24px;
+  margin-top: 16px;
+  color: #f7fffc;
   list-style: none;
 }
 
+.course-name{
+  display: block;
+  padding: 8px 12px;
+  //margin: 8px;
+  //border-radius: 5px;
+  font-weight: 300;
+  //font-size: $font-medium;
+  //color: #000000;
+  background-color: #cbf8e227;
+
+}
 .module-name{
+  display: block;
+  padding: 8px;
+  margin-left: 8px;
   font-weight: 500 ;
-  margin-top: 12px;
-  font-size: $font-medium;
+  position: relative;
 }
 
 .lessons-list{
   list-style: none;
-  margin-left: 8px;
-  li{
-    font-weight: 400 ;
-    font-size: 1rem;
-    margin-top: 8px;
+  margin-left: 12px;
+  margin-top: 4px;
+}
+.lessons-link{
+  text-decoration: none;
+  color: #f7fffc;
+  cursor: pointer;
+  display: block;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-weight: 400 ;
+  font-size: 1rem;
+  margin-bottom: 2px;
+  
+  &.active{
+    background-color: #cbf8e23d;
+  }
+  &:hover{
+    background-color: #cbf8e275;
+  }
+}
+.course-component{
+  background-color: #ECF8F4;
+  border: 2px solid #DFEDE9;
+  padding: 24px;
+}
+.container{
+  margin-top: 100px;
+}
+.learn-container{
+  margin-left: 270px;
+  margin-top: 12px;
+  margin-right: 60px;
+  padding: 8px 24px;
+}
+
+.learning-component{
+  display: flex;
+  flex-direction: column;
+}
+
+.to-next{
+  display: inline-block;
+  align-self: flex-end;
+  margin-top: 24px;
+  margin-right: 24px;
+  text-decoration: none;
+  font-size: $font-medium;
+  color: #000;
+  padding: 8px 24px;
+  background-color: #C6E5D6;
+  border-radius: 5px;
+}
+
+.back-btn{
+  position: relative;
+  display: inline-block;
+  align-self: flex-end;
+  margin-top: 20px;
+  margin-right: 12px;
+  text-decoration: none;
+  font-size: $font-medium;
+  font-weight: 500;
+  color: #fdfffe;
+  padding: 8px 24px;
+  &::before{
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 6px;
+    width: 24px;
+    height: 24px;
+    background-image: url(./assets/images/left2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 
-.course-component{
-  margin: auto 60px;
+.section-header{
+  margin-bottom: 12px;
+}
+.delimiter{
+  margin-top: 4px;
+  border-width: 2px 0 0 0;
+  border-style: solid;
+  border-color: #C6E5D6;
+}
+
+.component-title{
+  font-weight: 300;
+  font-size: $font-medium;
+}
+
+.hidden{
+  display: none;
+}
+
+.discussion-section{
+  margin-top: 49px;
+  padding: 12px;
+}
+
+.comment{
+  margin-top: 12px;
+  max-width: 600px;
+  background-color: rgba(255, 250, 225, 0.4);
+  border: 2px solid rgba(247, 237, 190, 0.712);
+  border-radius: 5px;
+  padding: 8px 12px;
 }

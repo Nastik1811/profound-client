@@ -9,6 +9,7 @@ import UserMenu from '../../components/UserMenu'
 
 const HomePage = () => {
     return(
+    <div className="content ">
     <div className="home">
         <div className="user-menu">
             <div className="user-img"></div>
@@ -21,6 +22,7 @@ const HomePage = () => {
             <Redirect to="/home/in_progress"/>
         </Switch>
         
+    </div>
     </div>
     )
 }
