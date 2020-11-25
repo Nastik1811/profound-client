@@ -25,3 +25,40 @@
       local("Roboto-Medium"),
       url("../assets/fonts/Roboto-Medium.ttf") format('truetype');
   }
+
+
+  @font-face{
+    font-family: "OpenSans";
+    font-style: normal;
+    font-weight: 400;
+    src: 
+      local("OpenSans-Regular"),
+      url("../assets/fonts/OpenSans-Regular.ttf") format('truetype');
+  } 
+  
+  @font-face{
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 100;
+    src: 
+      local("Montserrat-Thin"),
+      url("../assets/fonts/Montserrat-Thin.ttf") format('truetype');
+  } 
+
+  @font-face{
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 300;
+    src: 
+      local("Montserrat-Light"),
+      url("../assets/fonts/Montserrat-Light.ttf") format('truetype');
+  } 
+  
+  @font-face{
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    src: 
+      local("Montserrat-Regular"),
+      url("../assets/fonts/Montserrat-Regular.ttf") format('truetype');
+  }

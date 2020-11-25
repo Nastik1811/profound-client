@@ -1,10 +1,12 @@
 import React from 'react'
+import AppNavigation from '../../components/AppNavigation'
 import CoursePreview from '../../components/CoursePreview'
 
 const DiscoverPage = () => {
     return(
       <div className="content ">
-        <section className="section">
+        <AppNavigation/> 
+        <section className="discover-section">
             <h3 className="section-title">Popular courses</h3>
             <hr className="delimiter"/>
             <div className="course-list">

@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 const TheoreticalComponent = () => {
     return(
         <div className="course-component">
+            <h4 className="section-title">
+                This is component title
+            </h4>
                 <p>
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In egestas erat imperdiet sed. In fermentum posuere urna nec tincidunt. Ornare massa eget egestas purus viverra accumsan in. Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Ipsum suspendisse ultrices gravida dictum fusce ut placerat. Faucibus vitae aliquet nec ullamcorper sit. Porttitor massa id neque aliquam vestibulum. Non pulvinar neque laoreet suspendisse interdum consectetur libero. Blandit massa enim nec dui nunc mattis enim ut tellus. Viverra maecenas accumsan lacus vel. Sagittis vitae et leo duis. Vitae purus faucibus ornare suspendisse sed. Sed felis eget velit aliquet sagittis id consectetur purus. Gravida neque convallis a cras semper auctor neque vitae tempus. Viverra orci sagittis eu volutpat odio facilisis mauris sit. Facilisi cras fermentum odio eu feugiat pretium nibh. Sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus. Mus mauris vitae ultricies leo.
@@ -89,14 +92,16 @@ const LearningPage = () => {
             </div>
             <div className="learn-container">
                 <section className="learning-component">
-                    <header className="section-header">
-                        <h3 className="component-title">Lesson title</h3>
+                    <header>
+                        <h3 className="component-title">О нас</h3>
                         <hr className="delimiter"/>
+                        <div className="lesson-progress-container">
+                            <div className="step-indicator passed"></div>
+                            <div className="step-indicator passed"></div>
+                            <div className="step-indicator"></div>
+                            <div className="step-indicator"></div>
+                        </div>
                     </header>
-
-                    <div className="course-component">
-
-                    </div>
                     <TheoreticalComponent/>
                     <a href="#" className="to-next">Next step</a>
                 </section>

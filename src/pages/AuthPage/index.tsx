@@ -1,12 +1,13 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
+import AppNavigation from '../../components/AppNavigation'
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
 const AuthPage = () => {
-    
     return(
       <div className="content ">
+            <AppNavigation/> 
             <div className="auth-container">
                 <div className="img-container">
                 </div>

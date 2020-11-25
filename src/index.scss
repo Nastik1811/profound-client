@@ -10,14 +10,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-$desktop-max-width: 1240px;
-$font-small: .75rem;
-$font-medium: 1.125rem;
-$font-large: 1.75rem; 
-$font-extra-large: 2.5rem; 
-$box-shadow-regular:  -2px 2px 5px rgba(100, 126, 117, 0.2);
-$box-shadow-regular--hover: -3px 3px 10px rgba(88, 94, 92, 0.3);
-$transition-regular: all .2s ease;
+
+%link{
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  display: block;
+}
 
 html, body{
   height: 100%;
@@ -29,28 +28,17 @@ html, body{
   padding: 0;
   box-sizing: border-box;
 }
-button{
-  cursor: pointer;
-  font-family: 'Roboto';
-}
+
 #root{
   display: flex;
   min-height: 100%;
   background-color: #FAFFFC;
 }
 
-
 .app-container{
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.logo-container{
-  //position: absolute;
-  //left: 40px;
-  //top: 12px;
-  z-index: 10;
 }
 
 .logo{
@@ -62,30 +50,26 @@ button{
 }
 
 .app-nav{
-  //position: absolute;
-  //right: 40px;
-  //top: 24px;
-}
-
-.app-nav{
-  width: 90%;
-  max-width: $desktop-max-width;
   height: 50px;
-  margin: 12px auto;
+  margin-top: 12px ;
+  margin-bottom: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .content{
-  width: 100%;
-  max-width: $desktop-max-width;
+  margin: 0 4vw;
+}
+
+.discover-section{
+  width: 90%;
   margin: auto;
-  margin-top: 100px;
 }
 
 .course-list{
-  margin-top: 16px;
+  width: 100%;
+  margin-top: 16px ;
   display: grid;
   grid-template-columns: repeat(auto-fit, 270px) ;
   gap: 20px;
@@ -132,8 +116,7 @@ button{
 }
 
 .auth-link{
-  text-decoration: none;
-  color: black;
+  @extend %link;
   margin-left: 12px;
   background-color: rgba(198, 229, 214, 0.28);
   border-radius: 45px;
@@ -173,6 +156,7 @@ button{
   height: 550px;
   padding: 28px;
   background-color: rgba(164, 206, 185, 0.42);
+  background-color: #d3eee0;
   border-radius: 5px 45px 5px 5px;
 }
 
@@ -184,6 +168,7 @@ button{
   height: 140px;
   margin: 24px auto;
 }
+
 .home-section{
  flex-grow: 1;
  margin-left: 12px;
@@ -222,12 +207,9 @@ button{
 }
 
 .menu-link{
-  cursor: pointer;
-  text-decoration: none;
-  color: black;
+  @extend %link;
   padding: 8px 12px;
   transition: $transition-regular;
-  display: block;
   margin-top: 8px;
 
   &:hover, &:focus{
@@ -244,10 +226,10 @@ button{
   font-size: $font-medium;
   width: fit-content;
   &:hover, &:focus{
-    background-color: #ECF8F4;
+    background-color: #e0f7ebb2;
   }
   &.active{
-    background-color: #ECF8F4;
+    background-color: #e0f7ebd8;
   }
 }
 
@@ -344,14 +326,15 @@ button{
 
 
 .sidebar{
-  width: 270px;
+  width: 260px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   background-color: #31625D;
+  background-color: rgb(29, 43, 42);
   border-radius: 0 60px 0 0;
-  box-shadow: -10px 10px 20px #49585673;
+  box-shadow: -10px 10px 20px #495856b7;
 }
 
 .course-menu{
@@ -368,9 +351,10 @@ button{
   font-weight: 300;
   //font-size: $font-medium;
   //color: #000000;
-  background-color: #cbf8e227;
+  background-color: #cbf8e20c;
 
 }
+
 .module-name{
   display: block;
   padding: 8px;
@@ -385,31 +369,32 @@ button{
   margin-top: 4px;
 }
 .lessons-link{
-  text-decoration: none;
+  @extend %link;
   color: #f7fffc;
-  cursor: pointer;
-  display: block;
-  border-radius: 5px;
+  border-radius: 2px;
   padding: 4px 8px;
   font-weight: 400 ;
   font-size: 1rem;
   margin-bottom: 2px;
-  
-  &.active{
-    background-color: #cbf8e23d;
-  }
+
   &:hover{
-    background-color: #cbf8e275;
+    background-color: #cbf8e21e;
+  }
+    
+  &.active{
+    background-color: #cbf8e24f;
   }
 }
 .course-component{
-  background-color: #ECF8F4;
-  border: 2px solid #DFEDE9;
-  padding: 24px;
+  //background-color: #ECF8F4;
+  //border: 2px solid #DFEDE9;
+  padding: 12px 0px;
+  font-family: "OpenSans";
 }
 .container{
   margin-top: 100px;
 }
+
 .learn-container{
   margin-left: 270px;
   margin-top: 12px;
@@ -429,10 +414,16 @@ button{
   margin-right: 24px;
   text-decoration: none;
   font-size: $font-medium;
-  color: #000;
-  padding: 8px 24px;
-  background-color: #C6E5D6;
-  border-radius: 5px;
+  //font-family: 'Montserrat';
+  font-weight: 300;
+  color: rgb(255, 255, 255);
+  padding: 8px 16px;
+  background-color: #226b64;
+  //background-color:#b6e7ce;
+  //background-color: rgb(228, 63, 51);
+  //background-color: rgb(211, 31, 7);
+  border-radius: 2px;
+  box-shadow: -2px 2px 10px rgba(94, 94, 94, 0.233);;
 }
 
 .back-btn{
@@ -463,15 +454,15 @@ button{
   margin-bottom: 12px;
 }
 .delimiter{
-  margin-top: 4px;
+  margin: 4px 0 ;
   border-width: 2px 0 0 0;
   border-style: solid;
-  border-color: #C6E5D6;
+  border-color: #DFEDE9;
 }
 
 .component-title{
   font-weight: 300;
-  font-size: $font-medium;
+  font-size: 24px
 }
 
 .hidden{
@@ -486,9 +477,29 @@ button{
 .comment{
   margin-top: 12px;
   max-width: 600px;
-  background-color: rgba(255, 250, 225, 0.4);
-  border: 2px solid rgba(247, 237, 190, 0.712);
-  border-radius: 5px;
+  //background-color: rgba(255, 250, 225, 0.4);
+  //border: 2px solid rgba(247, 237, 190, 0.712);
+  background-color: #ECF8F4;
+  border: 2px solid #DFEDE9;
+  border-radius: 3px;
   padding: 8px 12px;
 }
 
+.lesson-progress-container{
+  display: flex;
+  margin-top: 12px;
+}
+
+.step-indicator{
+  margin-right: 4px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #24867d;
+  border-radius: 3px;
+  //box-shadow: inset 2px 2px 3px #b0dadd70, inset -2px -2px 3px #18bdcc6b, 2px 2px 5px #22767e3f
+
+  &.passed{
+    background-color: #24867d;
+    border: 2px solid #24867d;
+  }
+}

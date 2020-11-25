@@ -6,15 +6,10 @@ import {Switch, Route} from 'react-router-dom'
 import AuthPage from './pages/AuthPage';
 import ConstructorPage from './pages/ConstructorPage';
 import LearningPage from './pages/LearningPage';
-import AppLogo from './components/AppLogo';
-import AppNavigation from './components/AppNavigation';
 
 function App() {
-  const isAuthorized:boolean = true
   return (
     <div className="app-container">
-      <AppNavigation isAuthorized={isAuthorized}/> 
-
         <Switch>
           <Route exact path="/" component={DiscoverPage}/>
           <Route path="/auth" component={AuthPage}/>
