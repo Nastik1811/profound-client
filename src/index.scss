@@ -331,7 +331,7 @@ html, body{
   left: 0;
   top: 0;
   bottom: 0;
-  background-color: #31625D;
+  //background-color: #31625D;
   background-color: rgb(29, 43, 42);
   border-radius: 0 60px 0 0;
   box-shadow: -10px 10px 20px #495856b7;
@@ -386,9 +386,11 @@ html, body{
   }
 }
 .course-component{
-  //background-color: #ECF8F4;
-  //border: 2px solid #DFEDE9;
-  padding: 12px 0px;
+
+  //background-color: #ecf8f8;
+  //border: 2px solid #cde0e6;
+  padding: 24px 36px;
+  margin-top: 12px;
   font-family: "OpenSans";
 }
 .container{
@@ -418,7 +420,8 @@ html, body{
   font-weight: 300;
   color: rgb(255, 255, 255);
   padding: 8px 16px;
-  background-color: #226b64;
+  //background-color: #226b64;
+  background-color: #22606b;
   //background-color:#b6e7ce;
   //background-color: rgb(228, 63, 51);
   //background-color: rgb(211, 31, 7);
@@ -488,18 +491,24 @@ html, body{
 .lesson-progress-container{
   display: flex;
   margin-top: 12px;
+  //margin-left: 12px;
 }
 
 .step-indicator{
   margin-right: 4px;
   width: 20px;
   height: 20px;
-  border: 2px solid #24867d;
+  //border: 2px solid #247a86;
+  background-color: #70b4c981;
   border-radius: 3px;
   //box-shadow: inset 2px 2px 3px #b0dadd70, inset -2px -2px 3px #18bdcc6b, 2px 2px 5px #22767e3f
 
   &.passed{
-    background-color: #24867d;
-    border: 2px solid #24867d;
+    background-color: #246f86;
+    //border: 2px solid #247786;
+  }
+  &.active{
+    border: 2px solid #246f86;
+    transform: scale(1.2);
   }
 }
