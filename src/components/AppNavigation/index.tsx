@@ -2,8 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import UserMenu from '../UserMenu'
 
-const AppNavigation = ({isAuthorized}:any) => {
 
+const AppNavigation = ({isAuthorized}:any) => {
     return(
             <nav className="app-nav">
                 <NavLink to="/">       

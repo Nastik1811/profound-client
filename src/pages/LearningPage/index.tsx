@@ -2,20 +2,23 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import CourseContent from './CourseContent'
 import LessonNavigation from './LessonNavigation'
+import PracticeComponent from './PracticeComponent'
 
-interface RouteParams {
+type RouteParams = {
     id: string
 }  
-interface Course {
-    id: string,
-    name: string,
 
+type Course = {
+    id: string,
+    title: string,
 }
+
 type Lesson = {
     id: string
 } 
+
 type LessonComponent = {
-    
+       
 }
 
 const LearningPage = () => {
@@ -35,7 +38,7 @@ const LearningPage = () => {
                         <hr className="delimiter"/>
                         <LessonNavigation/>
                     </header>
-                    <TheoreticalComponent/>
+                    <PracticeComponent/>
                     <a href="#" className="to-next">Next step</a>
                 </section>
             </div>
