@@ -7,7 +7,7 @@ const CurrentCourses = () => {
             <h3 className="section-title">Current courses</h3>
             <CoursePreview
                     title="Deep Learning (семестр 1, осень 2020): базовый" 
-                    creator="Школа глубокого обучения МФТИ"
+                    author="Школа глубокого обучения МФТИ"
                     price="15$"
                     onClick={() => console.log("hehe")}
                     />

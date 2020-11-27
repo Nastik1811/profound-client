@@ -1,0 +1,89 @@
+{
+  "users":[
+      {
+          "id": 1,
+          "username": "nastik",
+          "first_name": "Anastasia",
+          "second_name": "Lugovskya",
+          "role": "student",
+          "password": "1111"
+      }
+  ],
+  "courses":[
+      {
+          "id":"1",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : "",
+          "category" : "programming"
+      },
+      {
+          "id":"2",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : ""
+      },
+      {
+          "id":"3",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : ""
+      },
+      {
+          "id":"4",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : ""
+      },
+      {
+          "id":"5",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : ""
+      },
+      {
+          "id":"6",
+          "title": "Python",
+          "author": "Школа глубокого обучения МФТИ",
+          "description": "",
+          "price" : "15",
+          "published": "11/11/2020",
+          "status": "published",
+          "requirements" : ""
+      }
+  ],
+  "categories":[
+      {
+          "id": "1",
+          "name": "Programming"
+      },
+      {
+          "id": "2",
+          "name": "Language"
+      },
+      {
+          "id": "3",
+          "name": "Buisiness"
+      }
+  ]
+}
