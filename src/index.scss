@@ -115,6 +115,9 @@ html, body{
   bottom: 12px;
 }
 
+.actions-container{
+  display: flex;
+}
 .auth-link{
   @extend %link;
   margin-left: 12px;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface CoursePreviewProps {
+type CoursePreviewProps = {
     title: string,
     creator: string,
     description?: string,
@@ -8,16 +8,16 @@ interface CoursePreviewProps {
     onClick: () => void
 }
 
-const CoursePreview = (props: CoursePreviewProps) => {
+const CoursePreview : React.FC<CoursePreviewProps> = ({title, creator, description, price, onClick}) => {
     return(
-        <div className="course-preview" onClick={props.onClick}>
+        <div className="course-preview" onClick={onClick}>
             <div className="p-info">
-                <h4 className="p-title">{props.title}</h4>
-                <span className="p-creator">{props.creator}</span>
+                <h4 className="p-title">{title}</h4>
+                <span className="p-creator">{creator}</span>
                 <p className="p-description">
-                    {props.description}
+                    {description}
                 </p>
-                <span className="p-price">{props.price}</span>
+                <span className="p-price">{price}</span>
             </div>
         </div>
     )

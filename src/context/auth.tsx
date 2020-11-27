@@ -6,12 +6,12 @@ type Props = {
 
 type UserRole = 'student'| 'teacher'| 'admin'
 
-type AuthContextType = {
+export type AuthContextType = {
     isAuthenticated: boolean,
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AuthContext = React.createContext<AuthContextType|undefined>(undefined);
+const AuthContext = React.createContext<AuthContextType>({isAuthenticated:false, setIsAuthenticated:() => {}});
 
 export const Auth0Provider = ({children}: Props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
