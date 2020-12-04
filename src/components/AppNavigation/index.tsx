@@ -1,8 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth0 } from '../../context/auth'
+import DropdownMenu from '../DropdownMenu'
 import UserMenu from '../UserMenu'
-
 
 const AppNavigation = () => {
     const {isAuthenticated} = useAuth0()
@@ -14,10 +14,9 @@ const AppNavigation = () => {
                 </NavLink> 
 
                 {isAuthenticated?
-                    <div className="dropdown">
-                        User name
-                        <UserMenu className="menu-list-dropdown hidden"/>
-                    </div>
+                    <DropdownMenu title="User name">
+                        <UserMenu className="menu-list-dropdown"/>
+                    </DropdownMenu>
                     :
                     <div className="actions-container">
                         <NavLink to="/auth/login" className="auth-link" >Login</NavLink>

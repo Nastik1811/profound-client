@@ -14,7 +14,7 @@ const useRoutes = (isAuthenticated:boolean) => {
                 <Route exact path="/" component={DiscoverPage}/>
                 <Route path="/home" component={HomePage}/>
                 <Route path="/constructor" component={ConstructorPage}/>
-                <Route path="/learn" component={LearningPage}/>
+                <Route path="/learn/:course_id" component={LearningPage}/>
                 <Route path="/overview/:course_id" component={CourseOverview}/>
                 <Redirect to="/" />
             </Switch>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
-
+import { Editor } from '@tinymce/tinymce-react'; 
 //Может быть новый курс либо редактировать уже существующий
 
 type CourseModule = {
@@ -31,6 +31,7 @@ const ConstructorPage = () => {
     const [description, setDescription] = useState<string>("")
     const [requirements, setRequirements] = useState<string>("")
     const [modules, setModules] = useState([])
+    const [editorText, setEditorText] = useState("")
 
     return(
         <div className="content">
@@ -58,6 +59,25 @@ const ConstructorPage = () => {
                         
                     </div>
                 </section>
+                <Editor
+                    initialValue="<p>Initial content</p>"
+                    apiKey="byzib6vl77xa64lyhxnx2kkuidn62dbwndgf0l21x5adzryr"
+                    init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image', 
+                        'charmap print preview anchor help',
+                        'searchreplace visualblocks code',
+                        'insertdatetime media table paste wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright | \
+                        bullist numlist outdent indent | help'
+                    }}
+                    onChange={e => console.log(e.target.getContent())}
+                />
             </section>
         </div>
     )

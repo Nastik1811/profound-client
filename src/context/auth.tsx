@@ -14,7 +14,7 @@ export type AuthContextType = {
 const AuthContext = React.createContext<AuthContextType>({isAuthenticated:false, setIsAuthenticated:() => {}});
 
 export const Auth0Provider = ({children}: Props) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     return(
         <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated}}>
