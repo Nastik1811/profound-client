@@ -10,29 +10,27 @@ type LessonPropsType = {
 type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'
 type ComponentType = 'practical' | 'theoretic'
 
-interface ILesson{
-    id: string,
-    name: string,
-    components: Component[]
-}
-
-interface IComponent{
+export interface IPrascticalComponent{
     id: string, 
     title: string, 
-    type: ComponentType, 
     completed: boolean
-}
-type Component = IPrascticalComponent | ITheoreticComponent
-
-export interface IPrascticalComponent extends IComponent{
-    type:'practical',
     task_type: TaskType, 
     task_title: string 
 }
 
-export interface ITheoreticComponent extends IComponent{
-    type: 'theoretic',
+export interface ITheoreticComponent{
+    id: string, 
+    title: string, 
+    completed: boolean
     content: string
+}
+
+type Component = IPrascticalComponent | ITheoreticComponent
+
+interface ILesson{
+    id: string,
+    name: string,
+    components: Component[]
 }
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
@@ -72,7 +70,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
             </header>
             
             {
-                activeComponent.type === "theoretic" ?
+                "content" in activeComponent ?
                 <TheoreticComponent 
                     id={activeComponent.id}
                     title={activeComponent.title}
@@ -82,7 +80,10 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
                 :
                 <PracticalComponent 
                     id={activeComponent.id}
-                    task_type={lesson.components[activeIndex]}
+                    title={activeComponent.title}
+                    task_title={activeComponent.task_title}
+                    task_type={activeComponent.task_type}
+                    completed={activeComponent.completed}
                 />
 
             }
