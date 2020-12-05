@@ -6,6 +6,7 @@ import CourseOverview from './pages/CourseOverview'
 import DiscoverPage from './pages/DiscoverPage'
 import HomePage from './pages/HomePage'
 import LearningPage from './pages/LearningPage'
+import PageNotFound from './pages/PageNotFound'
 
 const useRoutes = (isAuthenticated:boolean) => {
     if(isAuthenticated){ 
@@ -15,8 +16,9 @@ const useRoutes = (isAuthenticated:boolean) => {
                 <Route path="/home" component={HomePage}/>
                 <Route path="/constructor" component={ConstructorPage}/>
                 <Route path="/learn/:course_id" component={LearningPage}/>
-                <Route path="/overview/:course_id" component={CourseOverview}/>
-                <Redirect to="/" />
+                <Route path="/overview/:course_id" component={CourseOverview}/> 
+                <Redirect path="/auth" to="/"/>
+                <Route component={PageNotFound}/>
             </Switch>
         )}
         return(

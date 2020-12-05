@@ -2,16 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http.hook'
 import CourseContent from './CourseContent'
-import LessonNavigation from './LessonNavigation'
-import PracticeComponent from './PracticeComponent'
+import Lesson from './Lesson'
 
 type RouteParams = {
     course_id: string
 }  
 
-type Course = {
+interface ICourse{
     id: string,
-    title: string,
+    name: string,
 }
 
 type Lesson = {
@@ -25,23 +24,15 @@ type LessonComponent = {
 const LearningPage = () => {
     const {course_id} = useParams<RouteParams>()
     const {request} = useHttp()
-    const [course, setCourse] = useState<Course|undefined>(undefined)
-    const [lesson, setLesson] = useState(null)
+    const [course, setCourse] = useState<ICourse|undefined>(undefined)
+    const [lessonId, setLessonId] = useState<string|null>(null)
 
     const fetchCourse = useCallback(async () => {
         try{
             const data = await request(`/course_full/${course_id}`)
             setCourse(data)
+            data["last_lesson_id"] && setLessonId(data["last_lesson_id"])
             console.log(data)
-        }catch (e){
-            console.log(e.message)
-        }
-    }, [request])
-
-    const fetchLesson = useCallback(async () => {
-        try{
-            const data = await request(`/lessons/l1`)
-            setLesson(data)
         }catch (e){
             console.log(e.message)
         }
@@ -49,25 +40,18 @@ const LearningPage = () => {
 
     useEffect(() => {
         fetchCourse()
-        fetchLesson()
     }, [fetchCourse])
+
+    useEffect(() => console.log(course), [course])
 
     return(
         <>
             <div className="sidebar">
-                <a href="/home" className="back-btn">Back to home</a>
+                <a href="/home" className="back-btn">Back to home </a>
                 <CourseContent />
             </div>
             <div className="learn-container">
-                <section className="learning-component">
-                    <header>
-                        <h3 className="component-title">О нас</h3>
-                        <hr className="delimiter"/>
-                        <LessonNavigation/>
-                    </header>
-                    <PracticeComponent/>
-                    <a href="#" className="to-next">Next step</a>
-                </section>
+                {lessonId ? <Lesson lesson_id={lessonId}/> : <div>Loading</div>}
             </div>
         </>
     )
