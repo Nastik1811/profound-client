@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHttp } from '../../../hooks/http.hook'
-import LessonNavigation from './LessonNavigation'
+import LessonNavigation, { NavTab } from './LessonNavigation'
 import PracticalComponent from './PracticalComponent'
 import TheoreticComponent from './TheoreticComponent'
 
@@ -12,31 +12,31 @@ type ComponentType = 'practical' | 'theoretic'
 
 export interface IPrascticalComponent{
     id: string, 
-    title: string, 
+    title: string
     completed: boolean
-    task_type: TaskType, 
+    task_type: TaskType 
     task_title: string 
 }
 
 export interface ITheoreticComponent{
     id: string, 
-    title: string, 
+    title: string 
     completed: boolean
     content: string
 }
 
-type Component = IPrascticalComponent | ITheoreticComponent
+export type Component = IPrascticalComponent | ITheoreticComponent
 
 interface ILesson{
-    id: string,
-    name: string,
+    id: string
+    name: string
     components: Component[]
 }
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
     const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
     const [activeComponent, setActiveComponet] = useState<Component|undefined>(undefined)
-    const [activeIndex, setActivIndex] = useState<number>(0)
+    const [activeIndex, setActiveIndex] = useState<number>(0)
     const {request} = useHttp()
 
     const fetchLesson = useCallback(async () => {
@@ -50,10 +50,14 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
     }, [request])
 
     useEffect(() => {
+        setActiveComponet(lesson?.components[activeIndex])
+    }, [activeIndex, lesson])
+
+    useEffect(() => {
         fetchLesson()
     }, [fetchLesson])
 
-    if(!activeComponent){
+    if(!lesson || !activeComponent){
         return(
             <div>
                 Loading...
@@ -66,9 +70,12 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
             <header>
                 <h3 className="component-title">О нас</h3>
                 <hr className="delimiter"/>
-                <LessonNavigation/>
+                <LessonNavigation 
+                    components={lesson.components} 
+                    activeIndex={activeIndex} 
+                    onIndexChange={setActiveIndex}
+                    />
             </header>
-            
             {
                 "content" in activeComponent ?
                 <TheoreticComponent 
