@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import React from 'react'
+import { LessonComponentType } from '../types'
 
-import {Component} from '.'
+
 
 type NavTabPropsType = {
     active: boolean;
@@ -17,7 +18,7 @@ export const NavTab: React.FC<NavTabPropsType> = ({active, completed, onClick}) 
 }
 
 type LessonNavigationPropsType = {
-    components: Component[],
+    components: LessonComponentType[],
     activeIndex: number,
     onIndexChange: (index: number) => void
 }

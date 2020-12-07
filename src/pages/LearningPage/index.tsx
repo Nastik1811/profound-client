@@ -1,28 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Loader from '../../components/Loader'
 import { useHttp } from '../../hooks/http.hook'
+import { ICourse, RouteParamsType } from '../../types'
 import CourseContent from './CourseContent'
 import Lesson from './Lesson'
 
-type RouteParams = {
-    course_id: string
-}  
-
-interface ICourse{
-    id: string,
-    name: string,
-}
-
-type Lesson = {
-    id: string
-} 
-
-type LessonComponent = {
-       
-}
-
 const LearningPage = () => {
-    const {course_id} = useParams<RouteParams>()
+    const {course_id} = useParams<RouteParamsType>()
     const {request} = useHttp()
     const [course, setCourse] = useState<ICourse|undefined>(undefined)
     const [lessonId, setLessonId] = useState<string|null>(null)
@@ -51,7 +36,7 @@ const LearningPage = () => {
                 <CourseContent />
             </div>
             <div className="learn-container">
-                {lessonId ? <Lesson lesson_id={lessonId}/> : <div>Loading</div>}
+                {lessonId ? <Lesson lesson_id={lessonId}/> : <Loader/>}
             </div>
         </>
     )

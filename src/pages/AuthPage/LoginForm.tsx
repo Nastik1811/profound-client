@@ -6,13 +6,13 @@ const LoginForm = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    const {setIsAuthenticated} = useAuth0()
+    const {changeAuthState} = useAuth0()
 
     const handleLogin = (e: FormEvent) => {
         e.preventDefault()
         setUsername("")
         setPassword("")
-        setIsAuthenticated(true)
+        changeAuthState(true)
     }
 
     return(

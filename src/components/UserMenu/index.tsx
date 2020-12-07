@@ -1,7 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useAuth0 } from '../../context/auth'
 
 const UserMenu = ({className}: any) => {
+    const {changeAuthState} = useAuth0()
     return(
     <nav>
         <ul className={className}>
@@ -30,7 +32,7 @@ const UserMenu = ({className}: any) => {
                 </NavLink>
             </li>
             <li>
-                <button className="menu-link logout-btn">Log out</button>
+                <button className="menu-link logout-btn" onClick={() => changeAuthState(false)}>Log out</button>
             </li>
         </ul>
     </nav>

@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import CoursePreview from '../../components/CoursePreview'
+import { ICoursePreview } from '../../types'
 
-type CoursePreview = {
-    id: string,
-    title: string,
-    author: string,
-    description?: string,
-    price?: string,
-}
+
 
 const DiscoverPage = () => {
-    const [courses, setCourses] = useState<CoursePreview[]|undefined>(undefined)
+    const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
     useEffect(()=>{
         fetch('/courses').then(res => res.json()).then(setCourses)
     },[])
+
     return(
       <div className="content ">
         <AppNavigation/> 
@@ -25,10 +21,10 @@ const DiscoverPage = () => {
                 {
                     courses?.map(c => <CoursePreview
                         key={c.id}
+                        id={c.id}
                         title= {c.title}
                         author= {c.author}
                         price={c.price}
-                        onClick={() => console.log(c.id)}
                     />)
                 }
             </div>

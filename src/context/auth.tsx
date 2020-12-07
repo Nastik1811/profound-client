@@ -8,16 +8,26 @@ type UserRole = 'student'| 'teacher'| 'admin'
 
 export type AuthContextType = {
     isAuthenticated: boolean,
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+    changeAuthState: (authState: boolean) => void
 }
 
-const AuthContext = React.createContext<AuthContextType>({isAuthenticated:false, setIsAuthenticated:() => {}});
+const AuthContext = React.createContext<AuthContextType>({isAuthenticated:false, changeAuthState:() => {}});
 
 export const Auth0Provider = ({children}: Props) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const storedValue = localStorage.getItem('isAuthenticated')
+    let initAuthState = false
+    if(storedValue){
+        initAuthState = JSON.parse(storedValue)
+    }
+
+    const [isAuthenticated, setIsAuthenticated] = useState(initAuthState)
+    const changeAuthState = (authState: boolean) => {
+        setIsAuthenticated(authState)
+        localStorage.setItem('isAuthenticated', JSON.stringify(authState))
+    }
 
     return(
-        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated}}>
+        <AuthContext.Provider value={{isAuthenticated, changeAuthState}}>
             {children} 
         </AuthContext.Provider>
     )

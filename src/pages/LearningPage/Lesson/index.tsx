@@ -1,5 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState } from 'react'
+import Loader from '../../../components/Loader'
 import { useHttp } from '../../../hooks/http.hook'
+import { ILesson, LessonComponentType } from '../types'
 import LessonNavigation, { NavTab } from './LessonNavigation'
 import PracticalComponent from './PracticalComponent'
 import TheoreticComponent from './TheoreticComponent'
@@ -7,35 +9,10 @@ import TheoreticComponent from './TheoreticComponent'
 type LessonPropsType = {
     lesson_id: string
 }
-type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'
-type ComponentType = 'practical' | 'theoretic'
-
-export interface IPrascticalComponent{
-    id: string, 
-    title: string
-    completed: boolean
-    task_type: TaskType 
-    task_title: string 
-}
-
-export interface ITheoreticComponent{
-    id: string, 
-    title: string 
-    completed: boolean
-    content: string
-}
-
-export type Component = IPrascticalComponent | ITheoreticComponent
-
-interface ILesson{
-    id: string
-    name: string
-    components: Component[]
-}
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
     const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
-    const [activeComponent, setActiveComponet] = useState<Component|undefined>(undefined)
+    const [activeComponent, setActiveComponet] = useState<LessonComponentType|undefined>(undefined)
     const [activeIndex, setActiveIndex] = useState<number>(0)
     const {request} = useHttp()
 
@@ -59,9 +36,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
 
     if(!lesson || !activeComponent){
         return(
-            <div>
-                Loading...
-            </div>
+            <Loader/>
         )
     }
 

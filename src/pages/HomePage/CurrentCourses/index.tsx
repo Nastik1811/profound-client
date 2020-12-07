@@ -1,16 +1,16 @@
-import React from 'react'
-import CoursePreview from '../../../components/CoursePreview'
+import React, { useEffect, useState } from 'react'
+import { ICoursePreview } from '../../../types'
+
 
 const CurrentCourses = () => {
+    const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
+    useEffect(()=>{
+        fetch('/courses').then(res => res.json()).then(setCourses)
+    },[])
+
     return(
         <section className="home-section">
             <h3 className="section-title">Current courses</h3>
-            <CoursePreview
-                    title="Deep Learning (семестр 1, осень 2020): базовый" 
-                    author="Школа глубокого обучения МФТИ"
-                    price="15$"
-                    onClick={() => console.log("hehe")}
-                    />
         </section>
     )
 }
