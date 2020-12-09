@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
-import { Editor } from '@tinymce/tinymce-react'; 
+import ModuleBlock from './ModuleBlock'
+import { uuid } from 'uuidv4'
+import { Button, Modal, TextField } from '@material-ui/core'
+import SetNameModal, {SetNameModalPropsType} from './SetNameModal'
 //Может быть новый курс либо редактировать уже существующий
 
 type CourseModule = {
+    id: string,
     name: string,
-    lessons: CourseLesson[]
+    order: number,
+    lessons?: CourseLesson[]
 }
 
 type CourseLesson = {
+    id: string,
     name: string,
-    components: Array<PracticalComponent | TheoreticComponent>
+    order: number,
+    components?: Array<PracticalComponent | TheoreticComponent>
 }
 
 type TaskType = "single" | "mult" | "text" | "sort" | "match" | "file"
@@ -26,59 +33,135 @@ type PracticalComponent = {
     task_type: TaskType
 }
 
+const defaultModalParams: SetNameModalPropsType = {
+    open: false,
+    onSave: () => {},
+    onDismiss: () => {}
+}
+
+
 const ConstructorPage = () => {
-    const [title, setName] = useState<string>("")
+    const [name, setName] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [requirements, setRequirements] = useState<string>("")
-    const [modules, setModules] = useState([])
-    const [editorText, setEditorText] = useState("")
+    const [modules, setModules] = useState<CourseModule[]>([])
+    const [modalParams, setModalParams] = useState<SetNameModalPropsType>(defaultModalParams)
+    
+    const onAddModuleClick = () => {
+        setModalParams(
+            {
+                open: true,
+                onSave: createNewModule,
+                onDismiss: closeModal
+            }
+        )
+    }
+
+    const onAddLessonClick = (module_id: string) => {
+        setModalParams(
+            {
+                open: true,
+                onSave: (name) => createNewLesson(module_id, name),
+                onDismiss: closeModal
+            }
+        )
+    }
+
+    const closeModal = () => setModalParams(defaultModalParams)
+
+
+    const createNewModule = (name: string) => {
+        const newModule: CourseModule = {
+            id: uuid(),
+            name,
+            order: modules.length,
+            lessons: []
+        }
+        setModules(modules => [...modules, newModule])
+        closeModal()
+    }
+
+    const createNewLesson = (module_id: string, name: string) => {
+        const lessonsList = modules.find(m => m.id === module_id)?.lessons
+        const newLesson: CourseLesson = {
+            id: uuid(),
+            order: lessonsList?.length || 0,
+            name
+        }
+        const newLessonsList = lessonsList ? [...lessonsList, newLesson] : [newLesson]
+        
+        setModules(modules => modules.map(m => {
+            if(m.id === module_id){
+                return {...m, lessons: newLessonsList}
+            }
+            return m
+        }))
+        closeModal()
+    }
+
+    const deleteModule = (module_id: string) => {
+        setModules(modules => modules.filter(m => m.id !== module_id))
+    }
 
     return(
         <div className="content">
             <AppNavigation/> 
-            <section className="section">
-                <h3 className="section-titile">Constructor</h3>
-                <input placeholder="Course title"/>
-                <textarea placeholder="Course description"/>
-                <textarea placeholder="Course requirements"/>
-                <button>Add module</button>
-                <section>
-                    Course modules
-                    <div className="course-moudule">
-                        <header>
-                            <button>Delete</button>
-                            <button>Edit</button>
-                        </header>
-                        <ul>
-                            <li>
-                                <div className="lesson">
-
-                                </div>
-                            </li>
-                        </ul>
-                        
+            <div className="constructor">
+                <header className="constructor-header">
+                    <h3 className="title">Course constructor</h3>
+                    <div className="constructor-header--actions">
+                        <Button variant="outlined" >Cancel</Button>
+                        <Button variant="outlined" color="secondary">Save</Button>
                     </div>
+                </header>
+                <section className="basic-info-section">
+                    <TextField
+                        label="Course title"
+                    />
+                    <TextField 
+                        multiline 
+                        placeholder="Course description" 
+                        label="Course description"
+                        />
+                    <TextField 
+                        multiline 
+                        label="Course requirements"
+                    />
                 </section>
-                <Editor
-                    initialValue="<p>Initial content</p>"
-                    apiKey="byzib6vl77xa64lyhxnx2kkuidn62dbwndgf0l21x5adzryr"
-                    init={{
-                    height: 500,
-                    menubar: false,
-                    plugins: [
-                        'advlist autolink lists link image', 
-                        'charmap print preview anchor help',
-                        'searchreplace visualblocks code',
-                        'insertdatetime media table paste wordcount'
-                    ],
-                    toolbar:
-                        'undo redo | formatselect | bold italic | \
-                        alignleft aligncenter alignright | \
-                        bullist numlist outdent indent | help'
-                    }}
-                    onChange={e => console.log(e.target.getContent())}
+                <section className="modules-section">
+                    <header className="modules-section--header">
+                        <span className="modules-section--title section-title">Course modules</span>
+                        <Button onClick={onAddModuleClick} variant="outlined" >New module</Button>
+                    </header>
+                    {
+                        modules.length ? modules.map(m => 
+                        <ModuleBlock 
+                            name={m.name} 
+                            collapsed={false}
+                            onAddLesson={() => onAddLessonClick(m.id)}
+                            onDelete={() => deleteModule(m.id)}
+                        >
+                            {m.lessons?.map(l => 
+                                <div>
+                                    {l.name}
+                                </div>
+                            )}
+                        </ModuleBlock>)
+                        :
+                        <div>
+                            No modules created.
+                        </div>
+                    }
+                    <footer className="modules-section--footer">
+                    </footer>
+                </section>
+                <SetNameModal 
+                    open={modalParams.open} 
+                    onSave={modalParams.onSave} 
+                    onDismiss={modalParams.onDismiss}
                 />
-            </section>
+            </div>
+               
         </div>
     )
 }

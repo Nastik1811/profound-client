@@ -138,17 +138,7 @@ html, body{
   font-size: $font-medium;
 }
 
-.section{
-  padding: 0 40px;
-  display: flex;
-  flex-direction: column;
-}
 
-.section-title{
-  font-size: $font-large;
-  font-weight: 400;
-  margin-bottom: 8px;
-}
 
 .home{
   display: flex;
@@ -327,17 +317,6 @@ html, body{
   margin-top: 1rem;
   align-self: flex-end;
 }
-
-
-.title{
-  font-size: $font-extra-large;
-  margin-bottom: 1rem;
-  color: #333;
-  font-weight: 300;
-  text-align: center;
-}
-
-
 
 .sidebar{
   width: 260px;
@@ -525,4 +504,71 @@ html, body{
     border: 2px solid #246f86;
     transform: scale(1.2);
   }
+}
+
+.modules-section--header{
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modules-section--title{
+}
+
+.section{
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title{
+  font-size: $font-large;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.title{
+  font-size: $font-large;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 300;
+  text-align: center;
+}
+
+.basic-info-section{
+  //margin: auto;
+  //max-width: 900px;
+  display: grid;
+  row-gap: 10px;
+}
+.constructor{
+  max-width: 1060px;
+  width: 90%;
+  margin: auto;
+}
+
+.constructor-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.constructor-header--actions{
+
+}
+
+.module-block{
+  border: 1px solid #DFEDE9;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.modules-section{
+  display: grid;
+  row-gap: 15px;
+}
+
+.module-block--header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
