@@ -15,13 +15,15 @@ const HomePage = () => {
                     <div className="user-img"></div>
                     <UserMenu className="menu-list"/>
                 </div>
-                <Switch>
-                    <Route path="/home/in_progress" children={<CurrentCourses/>}/>
-                    <Route path="/home/own_courses" children={<CreatedCourses/>}/>
-                    <Route path="/home/achivements" children={<Achievements/>} />   
-                    <Redirect to="/home/in_progress"/>
-                </Switch>
-                
+
+                <section className="home-section">
+                    <Switch>
+                        <Route path="/home/in_progress" children={<CurrentCourses/>}/>
+                        <Route path="/home/own_courses" children={<CreatedCourses/>}/>
+                        <Route path="/home/achivements" children={<Achievements/>} />   
+                        <Redirect to="/home/in_progress"/>
+                    </Switch>
+                </section>
             </div>
         </div>
     )
