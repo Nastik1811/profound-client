@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React, { useState } from 'react'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 type DropdownMenuProp = {
     title: string,
@@ -12,6 +13,9 @@ const DropdownMenu: React.FC<DropdownMenuProp> = ({title, children}) => {
     return(
         <div className="dropdown" onClick={() => setHidden(state => !state)}>
             {title}
+            <span className={clsx("dropdown-icon", {"collapsed": !hidden})}>
+                <ArrowDropDownIcon/>
+            </span>
             <div className={clsx("dropdown-body", {"hidden": hidden})} >
                 {children}
             </div>
