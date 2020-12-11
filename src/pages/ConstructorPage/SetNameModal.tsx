@@ -22,12 +22,23 @@ const SetNameModal: React.FC<SetNameModalPropsType> = ({open, onSave, onDismiss}
 
     return(
         <Modal open={open}>
-            <div>
-                <TextField onChange={e => setValue(e.target.value)} value={value}/>
-                <div>
-                    <Button onClick={handleSave}>Create</Button>
-                    <Button onClick={handleClose}>Close</Button>
+            <div className="modal">
+                <div className="modal--header">
+                    <span className="modal--title title">
+                        Give a name!
+                    </span>
                 </div>
+                <div className="modal--content">
+                        <TextField 
+                            onChange={e => setValue(e.target.value)} 
+                            value={value}
+                            label="Name"
+                            />
+                </div>
+                <div className="modal--actions">
+                        <Button onClick={handleSave}>Create</Button>
+                        <Button onClick={handleClose}>Close</Button>
+                    </div>
             </div>
         </Modal>
     )
