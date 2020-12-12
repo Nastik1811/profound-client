@@ -1,24 +1,23 @@
 import { IconButton } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import React from 'react'
 
-type ModuleBlockProps = {
+export type ModuleBlockProps = {
     name: string,
-    collapsed: boolean,
-    children: React.ReactNode,
-    onAddLesson: () => void,
+    onEdit: () => void,
     onDelete: () => void,
+    children?: React.ReactNode
 }
 
-const ModuleBlock: React.FC<ModuleBlockProps> = ({name, children, collapsed, onAddLesson, onDelete}) => {
+const ModuleBlock: React.FC<ModuleBlockProps> = ({name, children, onEdit, onDelete}) => {
     return(
         <div className="module-block">
             <header className="module-block--header">
                 {name}
                 <div className="module-block--actions">
-                    <IconButton onClick={onAddLesson}>
-                        <AddIcon fontSize="small"/>
+                    <IconButton onClick={onEdit}>
+                        <EditIcon fontSize="small"/>
                     </IconButton>
                     <IconButton onClick={onDelete}>
                         <DeleteIcon fontSize="small"/>
