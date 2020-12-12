@@ -4,6 +4,7 @@ import ModuleBlock from './ModuleBlock'
 import { uuid } from 'uuidv4'
 import { Button, Modal, TextField } from '@material-ui/core'
 import SetNameModal, {SetNameModalPropsType} from './SetNameModal'
+import LessonBlock from './LessonBlock'
 //Может быть новый курс либо редактировать уже существующий
 
 type CourseModule = {
@@ -20,14 +21,17 @@ type CourseLesson = {
     components?: Array<PracticalComponent | TheoreticComponent>
 }
 
+
 type TaskType = "single" | "mult" | "text" | "sort" | "match" | "file"
 
 type TheoreticComponent = {
+    id: string,
     name: string,
     component_type: "theoretic"
 }
 
 type PracticalComponent = {
+    id: string,
     name: string,
     component_type: "practical",
     task_type: TaskType
@@ -67,6 +71,10 @@ const ConstructorPage = () => {
         )
     }
 
+    const onAddComponent = (lesson_id: string) => {
+
+    }
+
     const closeModal = () => setModalParams(defaultModalParams)
 
 
@@ -97,6 +105,33 @@ const ConstructorPage = () => {
             return m
         }))
         closeModal()
+    }
+
+    const createNewComponent = (module_id: string, lesson_id: string) => {
+        const lessonsList = modules.find(m => m.id === module_id)?.lessons
+        const componentList = lessonsList!.find(l => l.id === lesson_id)?.components
+        
+        const newComponent: TheoreticComponent = {
+            id: uuid(),
+            name: "New component",
+            component_type:"theoretic"
+        }
+
+        const newComponentList = componentList ? [...componentList, newComponent] : [newComponent]
+
+        setModules(modules => modules.map(m => {
+            if(m.id === module_id){
+                m.lessons?.map(
+                    l => {
+                        if(l.id === lesson_id){
+                            return {...l, components: newComponentList}
+                        }
+                        return l
+                    }
+                )
+            }
+            return m
+        }))
     }
 
     const deleteModule = (module_id: string) => {
@@ -142,9 +177,11 @@ const ConstructorPage = () => {
                             onDelete={() => deleteModule(m.id)}
                         >
                             {m.lessons?.map(l => 
-                                <div>
-                                    {l.name}
-                                </div>
+                                <LessonBlock
+                                    name={l.name}
+                                    onAddComponent={() => createNewComponent(m.id, l.id)}
+                                    components={l.components}
+                                />
                             )}
                         </ModuleBlock>)
                         :
