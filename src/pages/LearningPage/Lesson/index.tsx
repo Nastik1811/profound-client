@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState } from 'react'
 import Loader from '../../../components/Loader'
 import { useHttp } from '../../../hooks/http.hook'
-import { ILesson, LessonComponentType } from '../types'
+import { ILesson, LessonComponent } from '../../../types'
 import LessonNavigation, { NavTab } from './LessonNavigation'
 import PracticalComponent from './PracticalComponent'
 import TheoreticComponent from './TheoreticComponent'
@@ -12,7 +12,7 @@ type LessonPropsType = {
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
     const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
-    const [activeComponent, setActiveComponet] = useState<LessonComponentType|undefined>(undefined)
+    const [activeComponent, setActiveComponet] = useState<LessonComponent|undefined>(undefined)
     const [activeIndex, setActiveIndex] = useState<number>(0)
     const {request} = useHttp()
 
@@ -52,21 +52,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id}) => {
                     />
             </header>
             {
-                "content" in activeComponent ?
-                <TheoreticComponent 
-                    id={activeComponent.id}
-                    title={activeComponent.title}
-                    content={activeComponent.content}
-                    completed={activeComponent.completed}
-                    />
-                :
-                <PracticalComponent 
-                    id={activeComponent.id}
-                    title={activeComponent.title}
-                    task_title={activeComponent.task_title}
-                    task_type={activeComponent.task_type}
-                    completed={activeComponent.completed}
-                />
+                
 
             }
             <a href="#" className="to-next">Next step</a>

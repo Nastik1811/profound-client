@@ -1,5 +1,5 @@
 import React from 'react'
-import { IPrascticalComponent } from '../types'
+import { IPrascticalComponent } from '../../../types'
 
 const PracticalComponent: React.FC<IPrascticalComponent> = ({id, title, task_title, task_type, completed}) => {
     return(

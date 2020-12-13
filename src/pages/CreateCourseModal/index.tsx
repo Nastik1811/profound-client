@@ -1,7 +1,6 @@
 import { Button, Modal, TextField } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
-import { useAuth0 } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 
 

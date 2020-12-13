@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
-import { LessonComponentType } from '../types'
+import { LessonComponent } from '../../../types'
 
 
 
@@ -18,7 +18,7 @@ export const NavTab: React.FC<NavTabPropsType> = ({active, completed, onClick}) 
 }
 
 type LessonNavigationPropsType = {
-    components: LessonComponentType[],
+    components: LessonComponent[],
     activeIndex: number,
     onIndexChange: (index: number) => void
 }
@@ -26,7 +26,7 @@ type LessonNavigationPropsType = {
 const LessonNavigation: React.FC<LessonNavigationPropsType> = ({components, activeIndex, onIndexChange}) => {
     return(
         <div className="lesson-progress-container">
-            {components?.map((c, i) => <NavTab active={activeIndex === i} onClick={() => onIndexChange(i)} completed={c.completed}/>)}
+            {components?.map((c, i) => <NavTab active={activeIndex === i} onClick={() => onIndexChange(i)} completed={true}/>)}
         </div>
     )
 }
