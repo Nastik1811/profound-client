@@ -152,7 +152,7 @@ html, body{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 250px;
+  min-width: 250px;
   height: 650px;
   padding: 16px;
   background-color: rgba(164, 206, 185, 0.42);
@@ -172,6 +172,7 @@ html, body{
 .home-section{
  margin-left: 12px;
  padding: 12px;
+ flex-grow: 1;
  max-height: 650px;
  overflow: scroll;
 }
@@ -616,7 +617,7 @@ html, body{
 .created-course-list{
   display: grid;
   gap: 12px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) ;
   justify-items: center;
 }
 
@@ -626,7 +627,7 @@ html, body{
   color: #191e1e;
   text-decoration: none;
   width: 100%;
-  max-width: 350px;
+  //max-width: 350px;
   min-height: 100px;
   //height: 170px;
   border-radius: 5px;
@@ -759,8 +760,9 @@ html, body{
 }
 
 .lesson-block--header{
+  padding: 0 12px;
   display: grid;
-  grid-template-columns: 4ch 1fr 10ch 10ch 40px;
+  grid-template-columns: 4ch 1fr 10ch 10ch 100px;
   font-weight: 500;
   justify-items: left;
   align-items: center;
@@ -776,11 +778,18 @@ html, body{
   border: none;
   border-top: 1px solid #DFEDE9;
 }
+
 .component-block{
+  padding: 0 12px;
   display: grid;
-  grid-template-columns: 4ch 1fr 10ch 10ch 40px;
+  grid-template-columns: 4ch 1fr 10ch 10ch 100px;
   justify-items: left;
   align-items: center;
+  border-radius: 5px;
+  transition: $transition-regular;
+  &:hover{
+    background-color: #578a8a1c;
+  }
 }
 
 .message{
@@ -816,4 +825,8 @@ html, body{
   margin-top: 20px;
   display: grid;
   z-index: 100;
+}
+.lesson-block--actions{
+  display: grid;
+  grid-auto-flow: column;
 }

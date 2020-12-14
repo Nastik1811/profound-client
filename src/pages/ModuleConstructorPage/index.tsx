@@ -9,15 +9,8 @@ import ComponentConstructor from './ComponentConstructor'
 
 const defaultParams = {
     open: false,
-    onSave: () => {},
+    onSave: (details: ISimpleComponentDetails) => {},
     onDismiss: () => {}
-}
-
-const defaultDetails: ISimpleComponentDetails = {
-    content: "",
-    points: 0,
-    componentType: "theory",
-    
 }
 
 type ParamsType = typeof defaultParams
@@ -26,20 +19,39 @@ const ConstructorPage = () => {
     const [name, setName] = useState<string>("New module")
     const [newLessonName, setNewLessonName] = useState<string>("")
     const [lessons, setLessons] = useState<ILesson[]>([])
-    const [componentDetails, setComponentDetails] = useState<ISimpleComponentDetails>(defaultDetails)
     const [constructorParams, setConstructorParams] = useState<ParamsType>(defaultParams)
    
     const onAddComponent = (lesson_id: string) => {
         setConstructorParams({
             open: true,
-            onSave: () => createNewComponent(lesson_id),
+            onSave: (details) => {
+                createNewComponent(lesson_id, details)
+            },
             onDismiss: () => {
                 setConstructorParams(defaultParams)
-                setComponentDetails(defaultDetails)
             }
         })
     }
 
+    const onEditComponent = (lesson_id: string) => {
+        console.log('edit')
+    }
+
+    const onDeleteComponent = (lesson_id: string, id: string) => {
+        setLessons(lessons => lessons?.map(
+            l => {
+                if(l.id === lesson_id){
+                    const componentList = l.components.filter(c => c.id !== id)
+                    return {...l, components: componentList}
+                }
+                return l
+            }
+        ))
+    }
+
+    const onDeleteLesson = (lesson_id: string) => {
+        setLessons(lessons => lessons.filter(l => l.id !== lesson_id))
+    }
    
     const createNewLesson = () => {
         if(newLessonName === ""){
@@ -55,12 +67,13 @@ const ConstructorPage = () => {
         setLessons(lessons => [...lessons, newLesson])
         setNewLessonName("")
     }
-console.log(componentDetails)
-    const createNewComponent = (lesson_id: string) => {
+    
+
+    const createNewComponent = (lesson_id: string, details: ISimpleComponentDetails) => {
         const componentList = lessons!.find(l => l.id === lesson_id)?.components
         
         const newComponent: ISimpleComponent = {
-            ...componentDetails,
+            ...details,
             id: uuid(),
             order: componentList?.length || 0
         }
@@ -98,18 +111,16 @@ console.log(componentDetails)
                     newLessonName={newLessonName} 
                     setNewLessonName={setNewLessonName} 
                     createNewLesson={createNewLesson} 
+                    deleteLesson={onDeleteLesson}
                     addComponent={onAddComponent}
+                    editComponent={onEditComponent}
+                    deleteComponent={onDeleteComponent}
                 />
             </div>
             <ComponentConstructor
                 open={constructorParams.open}
-                content={componentDetails.content} 
-                onContentChange={(content: ContentType) => setComponentDetails({...componentDetails, content})} 
-                onContentTypeChange={(componentType: LessonComponentType) => setComponentDetails({...componentDetails, componentType})}  
-                componentType={componentDetails.componentType} 
-                points={componentDetails.points}
                 onSave={constructorParams.onSave}
-                onCancel={constructorParams.onDismiss}
+                onDismiss={constructorParams.onDismiss}
             />
         </div>
     )

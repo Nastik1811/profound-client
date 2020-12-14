@@ -7,26 +7,32 @@ import { ISimpleComponent } from '../../types'
 type LessonBlockPropsType = {
     name: string,
     onAddComponent: () => void,
-    components?: ISimpleComponent[]
+    components?: ISimpleComponent[],
+    onDelete: () => void,
+    onEditComponent: () => void,
+    onDeleteComponent: (id: string) => void
 }
 
+interface IComponentBlockProps extends ISimpleComponent{
+    onDelete: () => void
+    onEdit: () => void
+}
 
-
-const ComponentBlock: React.FC<ISimpleComponent> = ({id, order, points, content, componentType}) => {
+const ComponentBlock: React.FC<IComponentBlockProps> = ({id, order, points, content, componentType, onEdit, onDelete}) => {
     return(
         <div className="component-block">
             <span>#</span>
             <span>{content}</span>
             <span>{componentType}</span>
             <span>{points}</span>
-            <IconButton >
+            <IconButton onClick={onDelete}>
                     <DeleteIcon fontSize="small"/>
             </IconButton>
         </div>
     )
 }
 
-const LessonBlock: React.FC<LessonBlockPropsType> = ({name, components,onAddComponent}) => {
+const LessonBlock: React.FC<LessonBlockPropsType> = ({name, components, onDelete, onAddComponent, onEditComponent, onDeleteComponent}) => {
     return(
         <div className="lesson-block">
             <header className="lesson-block--header">
@@ -38,13 +44,25 @@ const LessonBlock: React.FC<LessonBlockPropsType> = ({name, components,onAddComp
                     <IconButton onClick={onAddComponent}>
                         <AddIcon fontSize="small"/>
                     </IconButton>
+                    <IconButton onClick={onDelete}>
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>
                 </div>
             </header>
             <hr className="lesson-block--hr"/>
             <div className="lesson-block--content">
                 {
                     components?.map(
-                        (c) => <ComponentBlock id={c.id} order={c.order} content={c.content} componentType={c.componentType} points={c.points}/>
+                        (c) => <ComponentBlock 
+                                key={c.id}
+                                id={c.id} 
+                                order={c.order} 
+                                content={c.content} 
+                                componentType={c.componentType} 
+                                points={c.points} 
+                                onEdit={onEditComponent}
+                                onDelete={() => onDeleteComponent(c.id)}
+                                />
                     )
                 }
             </div>

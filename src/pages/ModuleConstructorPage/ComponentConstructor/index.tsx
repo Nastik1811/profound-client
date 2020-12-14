@@ -1,31 +1,49 @@
 import { Button } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ContentType, ISimpleComponentDetails, LessonComponentType } from '../../../types'
 
 
-interface IComponentConstructorProps extends ISimpleComponentDetails {
+interface IComponentConstructorProps {
     open: boolean
-    onContentChange: (content: ContentType) => void
-    onContentTypeChange: (contentType: LessonComponentType) => void
-    onSave: () => void
-    onCancel: () => void
+    onSave: (details: ISimpleComponentDetails) => void
+    onDismiss: () => void
 }
 
-const ComponentConstructor: React.FC<IComponentConstructorProps> = ({open, content, onContentChange, onContentTypeChange, componentType, points, onSave, onCancel}) => {
+const defaultDetails: ISimpleComponentDetails = {
+    content: "",
+    points: 0,
+    componentType: "theory"
+}
+
+const ComponentConstructor: React.FC<IComponentConstructorProps> = ({open, onSave, onDismiss}) => {
+    const [details, setDetails] = useState(defaultDetails)
+    
+    //useEffect(()=> setSelfContent(defaultDetails))
+    const handleSave = () => {
+        onSave(details)
+        setDetails(defaultDetails)
+        onDismiss()
+    }
+    const handleCancel = () => {
+        setDetails(defaultDetails)
+        onDismiss()
+    }
+
     if(!open){
         return null
     }
+
     return (
     <div className="window">
         <div className="constructor-container">
             <div className="constructor">
-                <input value={content} onChange={e => onContentChange(e.target.value)}/>  
+                <input value={details.content} onChange={e => setDetails({...details, content: e.target.value})}/>  
 
                 <div className="constructor--actions">
-                    <Button onClick={onCancel}>
+                    <Button onClick={handleCancel}>
                         Cancel
                     </Button>
-                    <Button onClick={onSave}>
+                    <Button onClick={handleSave}>
                         Save
                     </Button>
                 </div>

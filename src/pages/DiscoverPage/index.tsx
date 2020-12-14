@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import CoursePreview from '../../components/CoursePreview'
+import { useHttp } from '../../hooks/http.hook'
 import { ICoursePreview } from '../../types'
 
 
 
 const DiscoverPage = () => {
     const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
+    const {request} = useHttp()
     useEffect(()=>{
-        fetch('/courses').then(res => res.json()).then(setCourses)
+        request('/courses').then(res => res.json()).then(setCourses).catch(console.log)
     },[])
 
     return(

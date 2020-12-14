@@ -19,8 +19,7 @@ const CreateCourseModal: React.FC = () => {
     const {request} = useHttp()
     const history = useHistory()
 
-    const handleSave = async () => {
-        
+    const handleSave = async () => {   
         try{
             const res = await request('/course', 'POST', {...data})
             if(res.course_id){

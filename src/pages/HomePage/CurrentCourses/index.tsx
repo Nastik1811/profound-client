@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Message from '../../../components/Message'
 import { ICoursePreview } from '../../../types'
 import CurrentCoursePreview from './CurrentCoursePreview'
 
@@ -27,7 +28,7 @@ const CurrentCourses = () => {
                         />
                 )
                 :
-                <div>No created coures yet</div>
+                <Message message="No courses created"/>
             }
             </div>
         </>

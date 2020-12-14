@@ -26,21 +26,19 @@ const CreatedCourses = () => {
                     <h3 className="title">Created courses</h3>
             </header>
             <div className="created-course-list">
-                <Link className="created-course-preview constructor-link" to="/constructor">
+                <Link className="created-course-preview constructor-link" to="/create">
                     <span className="">
                         CREATE COURSE
                     </span>
                 </Link>
             {
-                courses?.length ? courses.map( c =>
+                courses?.length && courses.map( c =>
                     <CreatedCoursePreview 
                         id={c.id}
                         author={c.author}
                         title={c.title}
                         />
                 )
-                :
-                <div>No created coures yet</div>
             }
             </div>
         </>
