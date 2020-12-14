@@ -1,37 +1,41 @@
 import React, { Dispatch, ReactNode, useState } from 'react'
+import Loader from '../components/Loader'
+import { useAuth } from '../hooks/auth.hook'
 
-type Props = {
-    children: React.ReactNode
-  };
+const noop = () => {}
 
-type UserRole = 'student'| 'teacher'| 'admin'
-
-export type AuthContextType = {
-    isAuthenticated: boolean,
-    changeAuthState: (authState: boolean) => void
+type AuthContexType = {
+    token: string | null,
+    userId: string | null,
+    username: string | null,
+    login: (jwtToken: string, id: string, username: string) => void,
+    logout: () => void,
+    isAuthenticated: boolean
 }
+export const AuthContext = React.createContext<AuthContexType>({
+  token: "sfdf",
+  userId: "123123",
+  username: "Nastya",
+  login: (jwtToken: string, id: string, username: string) => {},
+  logout: () => {},
+  isAuthenticated: false
+})
 
-const AuthContext = React.createContext<AuthContextType>({isAuthenticated:false, changeAuthState:() => {}});
+export const AuthProvider = ({children}: {children: React.ReactNode}) => {
+    const {login, token, userId, username, logout, ready} = useAuth()
+    const isAuthenticated = !!token
 
-export const Auth0Provider = ({children}: Props) => {
-    const storedValue = localStorage.getItem('isAuthenticated')
-    let initAuthState = false
-    if(storedValue){
-        initAuthState = JSON.parse(storedValue)
-    }
-
-    const [isAuthenticated, setIsAuthenticated] = useState(initAuthState)
-    const changeAuthState = (authState: boolean) => {
-        setIsAuthenticated(authState)
-        localStorage.setItem('isAuthenticated', JSON.stringify(authState))
+    if(!ready){
+        return(
+            <Loader/>
+        )
     }
 
     return(
-        <AuthContext.Provider value={{isAuthenticated, changeAuthState}}>
-            {children} 
+        <AuthContext.Provider value={{
+            token, login, logout, userId, username, isAuthenticated
+        }}>
+            {children}
         </AuthContext.Provider>
     )
-
 }
-
-export const useAuth0 = () =>  React.useContext(AuthContext)

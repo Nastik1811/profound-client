@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useAuth0 } from '../../context/auth'
+import { AuthContext } from '../../context/auth'
 import DropdownMenu from '../DropdownMenu'
 import UserMenu from '../UserMenu'
 
 const AppNavigation = () => {
-    const {isAuthenticated} = useAuth0()
+    const {isAuthenticated} = useContext(AuthContext)
     
     return(
             <nav className="app-nav">

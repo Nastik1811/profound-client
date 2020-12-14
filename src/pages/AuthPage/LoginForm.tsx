@@ -1,18 +1,18 @@
-import React, { FormEvent, useState } from 'react'
-import { useAuth0 } from '../../context/auth'
+import React, { FormEvent, useContext, useState } from 'react'
+import { AuthContext } from '../../context/auth'
 import Input from './Input'
 
 const LoginForm = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    const {changeAuthState} = useAuth0()
+    const {login} = useContext(AuthContext)
 
     const handleLogin = (e: FormEvent) => {
         e.preventDefault()
         setUsername("")
         setPassword("")
-        changeAuthState(true)
+        login("", "","" )
     }
 
     return(

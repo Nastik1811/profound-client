@@ -1,9 +1,9 @@
-import React from 'react'
-import { useAuth0 } from './context/auth'
+import React, { useContext } from 'react'
+import { AuthContext } from './context/auth';
 import useRoutes from './routes'
 
 function App() {
-  const isAuthenticated = useAuth0()!.isAuthenticated 
+  const {isAuthenticated} = useContext(AuthContext)
   const routes = useRoutes(isAuthenticated)
 
   return (
