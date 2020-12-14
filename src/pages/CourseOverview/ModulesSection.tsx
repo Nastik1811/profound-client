@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
+import Message from '../../components/Message'
 import { IModule } from '../../types'
 import ModuleBlock from './ModuleBlock'
 
@@ -20,7 +21,8 @@ const ModuleSection: React.FC<ModuleSectionPropsType> = ({modules, onAdd, onEdit
                     </header>
                 {
                     modules.length ? modules.map(m => 
-                    <ModuleBlock 
+                    <ModuleBlock
+                        key={m.id}
                         name={m.name} 
                         onDelete={() => onDelete(m.id)}
                         onEdit={() => onEdit(m.id)}
@@ -28,9 +30,7 @@ const ModuleSection: React.FC<ModuleSectionPropsType> = ({modules, onAdd, onEdit
                         
                     </ModuleBlock>)
                     :
-                    <div>
-                        No modules created.
-                    </div>
+                    <Message message="No modules created"/>
                 }
             </section>
     )

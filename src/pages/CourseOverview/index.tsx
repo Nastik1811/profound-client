@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 
 import AppNavigation from '../../components/AppNavigation'
 import Loader from '../../components/Loader'
@@ -14,11 +14,13 @@ const CourseOverview = () => {
     const {request} = useHttp()
     const history = useHistory()
     const [course, setCourse] = useState<ICourse|undefined>(undefined)
+    const [isAuthor, setIsAuthor] = useState<boolean>(false)
+    const [isEnrolled, setIsEnrolled] = useState<boolean>(false)
 
     const fetchCourse = useCallback(async () => {
         try{
-            const data = await request(`/course_full/${course_id}`)
-            setCourse(data)
+            const data = await request(`https://profound-web-app.azurewebsites.net/api/course/${course_id}`)
+            setCourse(data.course)
         }catch (e){
             console.log(e.message)
         }
@@ -34,6 +36,7 @@ const CourseOverview = () => {
     const handleDelete = () => {
         console.log("Delete")
     }
+
     const deleteModule = (module_id: string) => {
         //setModules(modules => modules.filter(m => m.id !== module_id))
     }
@@ -42,23 +45,30 @@ const CourseOverview = () => {
     <div className="content ">
         <AppNavigation/> 
         <section>
-            <header className="constructor-header">
-                    <h3 className="title">{course.name}</h3>
-                    <div className="constructor-header--actions">
-                        <Button variant="outlined" color="secondary">Edit</Button>
-                    </div>
+            <header className="overview-header">
+                    <h3 className="title">{course.title}</h3>
+                    {
+                        isAuthor && 
+                        <div className="constructor-header--actions">
+                            <Button variant="outlined" color="secondary">Edit</Button>
+                        </div>
+                    }
             </header>
             <div className="course-description">
                 {course.description}
             </div>
+            <div>
+                {isEnrolled && <Link to={`/learn/${course_id}`}></Link>}
+                {!isEnrolled && !isAuthor && <Link to={`/payment/${course_id}`}>Enroll</Link>}
+            </div>
         </section>
 
-        <ModuleSection 
+        {isAuthor && <ModuleSection 
             modules={course.modules ? course.modules : []}
             onAdd={() => history.push(`${history.location.pathname}/constructor`)}
             onDelete={handleDelete}
             onEdit={(module_id: string) => history.push(`${history.location.pathname}/constructor/${module_id}`)}
-            />
+            />}
     </div>
     )
 }

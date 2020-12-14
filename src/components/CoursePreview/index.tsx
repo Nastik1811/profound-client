@@ -12,13 +12,13 @@ type CoursePreviewProps = {
 const CoursePreview : React.FC<CoursePreviewProps> = ({id, title, author, description, price}) => {
     return(
         <Link className="course-preview" to={`/overview/${id}`}>
-            <div className="p-info">
-                <span className="p-title">{title}</span>
-                <span className="p-creator">{author}</span>
-                <p className="p-description">
+            <div className="preview">
+                <span className="preview--title">{title}</span>
+                <span className="preview--creator">{author}</span>
+                <p className="preview--description">
                     {description}
                 </p>
-                <span className="p-price">{price}</span>
+                <span className="preview--price">{price} BYN</span>
             </div>
         </Link>
     )

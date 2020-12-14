@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import CoursePreview from '../../components/CoursePreview'
+import Loader from '../../components/Loader'
 import { useHttp } from '../../hooks/http.hook'
 import { ICoursePreview } from '../../types'
 
-
-
 const DiscoverPage = () => {
     const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
-    const {request} = useHttp()
+    const {request, loading} = useHttp()
     useEffect(()=>{
-        request('/courses').then(res => res.json()).then(setCourses).catch(console.log)
+        request('https://profound-web-app.azurewebsites.net/api/course').then(setCourses).catch(console.log)
     },[])
 
     return(
@@ -21,12 +20,14 @@ const DiscoverPage = () => {
             <hr className="delimiter"/>
             <div className="course-list">
                 {
+                    loading ? <Loader/> :
                     courses?.map(c => <CoursePreview
                         key={c.id}
                         id={c.id}
                         title= {c.title}
                         author= {c.author}
                         price={c.price}
+                        description={c.description}
                     />)
                 }
             </div>
