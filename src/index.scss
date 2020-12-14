@@ -88,23 +88,24 @@ html, body{
   background-repeat: no-repeat;
   transition: $transition-regular;
   &:hover{
-    background-color: lighten(#d7f1e4, 3%);
+    background-color: lighten(#e7f8f0, 5%);
     box-shadow: $box-shadow-regular--hover;
   }
 }
 
-.p-info{
+.preview{
+  display: grid;
   padding: 12px 16px;
   position: relative;
   max-lines: 2;
   text-overflow: ellipsis;
   display: grid;
-  grid-template-rows: 50px 1fr ;
+  height: 100%;
+  grid-template-rows: 50px auto 1fr;
 }
 
-
-
-.p-title {
+.preview--title {
+  font-size: $font-medium;
   font-weight: 500;
   margin: auto 0;
   display: -webkit-box;
@@ -113,18 +114,19 @@ html, body{
   overflow: hidden;
 }
 
-.p-creator{
+.preview--creator{
   font-size: $font-small;
 }
 
-.p-description{
+.preview--description{
+  font-size: $font-small;
+  font-weight: 400;
+  color: #444;
   text-overflow: ellipsis;
 }
 
-.p-price{
-  position: absolute;
-  right: 24px;
-  bottom: 12px;
+.preview--price{
+  justify-self: end;
 }
 
 .actions-container{
@@ -829,4 +831,35 @@ html, body{
 .lesson-block--actions{
   display: grid;
   grid-auto-flow: column;
+}
+
+.payment-container{
+  position: relative;
+  margin: 5vw auto;
+  min-width: 400px;
+  box-shadow: -10px 10px 30px #49585659;
+  background-color: #effcf8;
+  border-radius: 10px;
+  padding: 40px;
+  
+  background-image: url('./assets/images/print.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+
+.payment--details{
+  margin: auto;
+  margin-top: 2vw;
+  max-width: 700px;
+  display: grid;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.payment-form{
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  row-gap: 12px;
 }

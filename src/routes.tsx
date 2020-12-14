@@ -8,6 +8,9 @@ import DiscoverPage from './pages/DiscoverPage'
 import HomePage from './pages/HomePage'
 import LearningPage from './pages/LearningPage'
 import PageNotFound from './pages/PageNotFound'
+import PaymentPage from './pages/PaymentPage'
+
+export const baseUrl = "https://profound-web-app.azurewebsites.net/"
 
 const useRoutes = (isAuthenticated:boolean) => {
     if(isAuthenticated){ 
@@ -21,6 +24,7 @@ const useRoutes = (isAuthenticated:boolean) => {
                 </Route> 
                 <Route path="/overview/:course_id/constructor/:module_id?" component={ConstructorPage}/>
                 <Route path="/overview/:course_id" component={CourseOverview}/> 
+                <Route path="/payment/:course_id" component={PaymentPage}/> 
                 <Redirect path="/auth" to="/"/>
                 <Route component={PageNotFound}/>
             </Switch>

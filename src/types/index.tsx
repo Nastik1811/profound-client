@@ -12,7 +12,7 @@ export interface ICoursePreview{
 
 export interface ICourse{
     id: string
-    name: string
+    title: string
     description?: string
     requirements?: string
     modules?: IModule[]
