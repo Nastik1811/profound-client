@@ -20,7 +20,8 @@ export interface ICourse{
 
 export interface IModule{
     id: string,
-    name: string
+    name: string,
+    lessons?:  ILesson[]
 } 
 type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'
 
@@ -46,7 +47,7 @@ export interface ILesson{
     id: string
     name: string
     order: number
-    components: LessonComponent[]
+    components?: LessonComponent[]
 }
 export type ContentType = string
 export interface ISimpleComponentDetails{
@@ -60,8 +61,6 @@ export interface ISimpleComponent extends ISimpleComponentDetails{
     order: number 
 }
 
-export interface IModuleExtended extends IModule {
-} 
 
 
 export interface ILessonExtended extends ILesson{   

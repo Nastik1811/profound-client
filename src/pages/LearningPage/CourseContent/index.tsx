@@ -1,31 +1,29 @@
+import clsx from 'clsx'
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { IModule } from '../../../types'
 
-const CourseContent = ({}) => {
+
+const CourseContent = ({modules, title, activeId, onSelectLesson}:{modules?: IModule[], title: string, activeId?: string, onSelectLesson: (id: string) => void }) => {
     return(
             <ul className="course-menu">
-                <span className="course-name">Deep Learning (семестр 1, осень 2020): базовый поток</span>
-                <li className="module-name">
-                    <span>Организационная информация</span>
-                    <ul className="lessons-list">
-                        <li>
-                            <a className="lessons-link active" href="#">О нас</a>
-                        </li>
-                        <li>
-                        <a className="lessons-link" href="#">Организационное собрание</a>
-                        </li>
-                    </ul>
-                </li>
-                <li className="module-name">
-                    <span>Введение в искусственнный интелект</span>
-                    <ul className="lessons-list">
-                        <li>
-                        <a className="lessons-link" href="#">Лекция. Введение в искусственный интеллект.</a>
-                        </li>
-                        <li>
-                        <a className="lessons-link" href="#">Организационное собрание</a>
-                        </li>
-                    </ul>
-                </li>
+                <span className="course-name">{title}</span>
+                {modules?.map(m => 
+                    <li className="module-name" key={m.id}>
+                    <span>{m.name}</span>
+                        <ul className="lessons-list">
+                            {
+                                m.lessons?.map(l => 
+                                    <li key={l.id}>
+                                        <div className={clsx("lessons-link", {"active": l.id === activeId})}
+                                             onClick={() => onSelectLesson(l.id)}
+                                        >{l.name}</div>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </li>
+                )}
             </ul>
     )
 }
