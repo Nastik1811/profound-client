@@ -11,7 +11,7 @@ interface IComponentConstructorProps {
 
 const defaultDetails: ISimpleComponentDetails = {
     content: "",
-    points: 0,
+    maxPoints: 0,
     componentType: "theory"
 }
 

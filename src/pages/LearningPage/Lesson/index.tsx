@@ -1,10 +1,13 @@
-import React, {useCallback, useEffect, useState } from 'react'
+import { Button } from '@material-ui/core'
+import React, {useCallback, useContext, useEffect, useState } from 'react'
 import Loader from '../../../components/Loader'
 import Message from '../../../components/Message'
+import { AuthContext } from '../../../context/auth'
 import { useHttp } from '../../../hooks/http.hook'
 import { baseUrl } from '../../../routes'
 import { ILesson, LessonComponent } from '../../../types'
 import LessonNavigation from './LessonNavigation'
+import TaskComponent from './TaskComponent'
 
 type LessonPropsType = {
     lesson_id: string,
@@ -14,8 +17,9 @@ type LessonPropsType = {
 const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
     const [activeComponent, setActiveComponet] = useState<LessonComponent|undefined>(undefined)
-    const [activeIndex, setActiveIndex] = useState<number>(0)
-    const {request} = useHttp()
+    const [activeIndex, setActiveIndex] = useState<number>(0) 
+    const {token} = useContext(AuthContext)
+    const {request} = useHttp(token)
 
     const fetchLesson = useCallback(async () => {
         try{
@@ -47,7 +51,10 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
             <Message message="This lesson has no components"/>
         )
     }
+    const onAnswer = () => {
 
+    }
+    
     return(
         <section className="learning-component">
             <header>
@@ -62,7 +69,12 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
                 }
             </header>
             {
-                activeComponent && activeComponent.content
+                activeComponent && 
+                <div className="task-container">
+                    <TaskComponent content={activeComponent.content} componentType={activeComponent.componentType}/>
+                    <Button size="large" color="inherit" onClick={onAnswer}>Submit</Button>
+                </div>
+
 
             }
             {/* <a href="#" className="to-next">Next step</a> */}

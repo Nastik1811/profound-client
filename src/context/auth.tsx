@@ -7,20 +7,24 @@ const noop = () => {}
 type AuthContexType = {
     token: string | null,
     userId: string | null,
-    login: (jwtToken: string, id: string) => void,
+    firstname: string | null,
+    lastname: string | null,
+    login: (jwtToken: string, id: string, firstname: string, lastname: string) => void,
     logout: () => void,
     isAuthenticated: boolean
 }
 export const AuthContext = React.createContext<AuthContexType>({
   token: null,
   userId: null,
-  login: (jwtToken: string, id: string) => {},
+  firstname: null ,
+  lastname: null ,
+  login: (jwtToken: string, id: string, firstname: string, lastname: string) => {},
   logout: () => {},
   isAuthenticated: false
 })
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-    const {login, token, userId, logout, ready} = useAuth()
+    const {login, token, userId, firstname, lastname, logout, ready} = useAuth()
     const isAuthenticated = !!token
 
     if(!ready){
@@ -31,7 +35,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     return(
         <AuthContext.Provider value={{
-            token, login, logout, userId, isAuthenticated
+            token, login, logout, firstname, lastname, userId, isAuthenticated
         }}>
             {children}
         </AuthContext.Provider>

@@ -16,7 +16,7 @@ const LoginForm = () => {
         try {
           const res = await request(`${baseUrl}/api/account/token`, 'POST', {email, password})
           console.log(res)
-          login(res.access_token, res.id);
+          login(res.access_token, res.id, res.firstName, res.lastName);
         } catch (error) {
           alert(error);
         }

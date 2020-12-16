@@ -1,4 +1,4 @@
-import React, { ChangeEvent, SyntheticEvent, useState } from 'react'
+import React, { ChangeEvent, SyntheticEvent, useContext, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Card from 'react-credit-cards'
 import { useHttp } from '../../hooks/http.hook'
@@ -6,6 +6,7 @@ import { RouteParamsType } from '../../types'
 import "react-credit-cards/es/styles-compiled.css";
 import { Button, TextField } from '@material-ui/core'
 import { baseUrl } from '../../routes'
+import { AuthContext } from '../../context/auth'
 
 type cardDetails = {
     cvc: string,
@@ -25,18 +26,15 @@ const cardDetailsDefault = {
 type FocusedFildName = "name" | "number" | "cvc" | "expiry" | undefined
 const PaymentPage = () => {
     const {course_id} = useParams<RouteParamsType>()
-    const {request} = useHttp()
+    const {token} = useContext(AuthContext)
+    const {request} = useHttp(token)
     const history = useHistory()
     const [details, setDetails] = useState<cardDetails>(cardDetailsDefault)
 
     const handlePayment = async () => {
         try{
-            const res = await request(`${baseUrl}/api/${course_id}/purchase`, 'POST', details)
-            if(res.ok){ 
-                history.push(`/learn/${course_id}`)
-            }else{
-                throw new Error("Something went wrong. Try again later")
-            }
+            await request(`${baseUrl}/api/course/${course_id}/purchase`, 'POST')
+            history.push(`/learn/${course_id}`)
         }catch(e){
             alert(e.message)
             history.push(`/home`)

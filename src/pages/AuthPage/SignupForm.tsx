@@ -23,7 +23,7 @@ const SignupForm = () => {
         event.preventDefault();
         try {
           const res = await request(`${baseUrl}/api/account/register`, 'POST', form)
-          login(res.access_token, res.id);
+          login(res.access_token, res.id, res.firstName, res.lastName);
         } catch (error) {
           alert(error);
         }

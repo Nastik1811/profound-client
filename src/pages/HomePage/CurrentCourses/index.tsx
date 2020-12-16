@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Message from '../../../components/Message'
+import { AuthContext } from '../../../context/auth'
+import { useHttp } from '../../../hooks/http.hook'
 import { ICoursePreview } from '../../../types'
 import CurrentCoursePreview from './CurrentCoursePreview'
 
 
 const CurrentCourses = () => {
     const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
+    const {token} = useContext(AuthContext)
+    const {request, loading} = useHttp(token)
     useEffect(()=>{
-        fetch('/courses').then(res => res.json()).then(setCourses)
+        request('https://profound-web-app.azurewebsites.net/api/course').then(setCourses).catch(console.log)
     },[])
 
     return(
@@ -21,7 +25,7 @@ const CurrentCourses = () => {
                 courses?.length ? courses.map( c =>
                     <CurrentCoursePreview 
                         id={c.id}
-                        author={c.author}
+                        author={`${c.creator.firstName} ${c.creator.lastName}`}
                         title={c.title}
                         lessons_number={20}
                         passed_lessons_number={5}

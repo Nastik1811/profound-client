@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import CoursePreview from '../../components/CoursePreview'
 import Loader from '../../components/Loader'
+import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { ICoursePreview } from '../../types'
 
 const DiscoverPage = () => {
     const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
-    const {request, loading} = useHttp()
+    const {token} = useContext(AuthContext)
+    const {request, loading} = useHttp(token)
     useEffect(()=>{
         request('https://profound-web-app.azurewebsites.net/api/course').then(setCourses).catch(console.log)
     },[])
@@ -25,7 +27,7 @@ const DiscoverPage = () => {
                         key={c.id}
                         id={c.id}
                         title= {c.title}
-                        author= {c.author}
+                        author={`${c.creator.firstName} ${c.creator.lastName}`}
                         price={c.price}
                         description={c.description}
                     />)

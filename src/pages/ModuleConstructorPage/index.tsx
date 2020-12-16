@@ -30,7 +30,16 @@ const ConstructorPage = () => {
     const [constructorParams, setConstructorParams] = useState<ParamsType>(defaultParams)
    
     const handleSubmit = async () => {
-        await request(`${baseUrl}/api/teacher/course/modules/`, 'POST', {name, lessons, courseId:course_id, order: 1})
+        await request(`${baseUrl}/api/teacher/course/modules`, 'POST', {name, lessons: lessons.map(l => ({
+            name: l.name,
+            order: l.order,
+            components: l.components?.map(c =>({
+                content: c.content, 
+                componentType: c.componentType,
+                maxPoints: c.maxPoints,
+                order: c.order
+            }))
+        })), courseId:31, order: 0})
         history.goBack()
     }
 
@@ -116,7 +125,7 @@ const ConstructorPage = () => {
                     <div className="constructor-header--actions">
                         <Button onClick={() => history.goBack()}>Cancel</Button>
                         <Button color="secondary" onClick={handleSubmit}>Save</Button>
-                    </div>
+                    </div> 
                 </header>
                 <hr className="header--hr"/>
                 <LessonsList

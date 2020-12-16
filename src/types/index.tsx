@@ -5,9 +5,10 @@ export type RouteParamsType = {
 export interface ICoursePreview{
     id: string
     title: string
-    author: string
+    creator: {id:number, firstName: string, lastName: string}
     description?: string
     price?: string
+    status: string
 }
 
 export interface ICourse{
@@ -15,6 +16,7 @@ export interface ICourse{
     title: string
     description?: string
     requirements?: string
+    price?: number
     modules?: IModule[]
 }
 
@@ -41,7 +43,9 @@ export interface ITheoreticComponent{
 }
 
 export type LessonComponentType = "theory" | "practice"
-export type LessonComponent = ISimpleComponent
+export interface LessonComponent extends ISimpleComponent{
+    completed?: boolean
+}
 
 export interface ILesson{
     id: string
@@ -52,7 +56,7 @@ export interface ILesson{
 export type ContentType = string
 export interface ISimpleComponentDetails{
     content: ContentType
-    points: number
+    maxPoints: number
     componentType: LessonComponentType
 }
 

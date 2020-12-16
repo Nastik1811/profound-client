@@ -16,7 +16,7 @@ export const useHttp = (token?: string|null) => {
                 headers['Authorization'] = `Bearer ${token}`
             }
             const res = await fetch(url, {method, body, headers})
-            const data = await res.json()
+            const data = await res.json().catch(console.log)
             
             if(!res.ok){
                 throw new Error(data.message || "Something went wrong")

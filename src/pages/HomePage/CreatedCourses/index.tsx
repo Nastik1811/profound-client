@@ -1,18 +1,21 @@
 
 import { Button } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../../../components/Loader'
+import { AuthContext } from '../../../context/auth'
 import { useHttp } from '../../../hooks/http.hook'
+import { baseUrl } from '../../../routes'
 import { ICoursePreview } from '../../../types'
 import CreatedCoursePreview from './CreatedCoursePreview'
 
 const CreatedCourses = () => {
-    const {request, loading} = useHttp()
+    const {token} = useContext(AuthContext)
+    const {request, loading} = useHttp(token)
 
-    const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
+    const [courses, setCourses] = useState<ICoursePreview[]>([])
     useEffect(()=>{
-        request('/courses').then(setCourses)
+        request(`${baseUrl}/api/teacher/courses`).then(setCourses)
     },[])
 
     if(loading){
@@ -32,11 +35,12 @@ const CreatedCourses = () => {
                     </span>
                 </Link>
             {
-                courses?.length && courses.map( c =>
+                courses.length > 0 && courses.map( c =>
                     <CreatedCoursePreview 
                         id={c.id}
-                        author={c.author}
+                        status={c.status}
                         title={c.title}
+                        description={c.description}
                         />
                 )
             }

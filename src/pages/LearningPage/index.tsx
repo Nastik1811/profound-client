@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Redirect, useParams } from 'react-router-dom'
 import Loader from '../../components/Loader'
+import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { baseUrl } from '../../routes'
 import { ICourse, RouteParamsType } from '../../types'
@@ -9,25 +10,37 @@ import Lesson from './Lesson'
 
 const LearningPage = () => {
     const {course_id} = useParams<RouteParamsType>()
-    const {request} = useHttp()
+    const {token} = useContext(AuthContext)
+    const {request} = useHttp(token)
     const [course, setCourse] = useState<ICourse|undefined>(undefined)
     const [lessonId, setLessonId] = useState<string|undefined>(undefined)
+    const [error, setError] = useState(null)
 
     const fetchCourse = useCallback(async () => {
         try{
             const data = await request(`${baseUrl}/api/course/${course_id}`)
             setCourse(data.course)
-            const lastLessonId = data.course.lastLessonId 
+            const lastLessonId = data.lastLessonId 
+            if(lastLessonId === 0){
+                throw new Error("You are not enrolled to this course")
+            }
             lastLessonId === -1 ?  setLessonId(data.course.modules[0].lessons[0].id) : setLessonId(lastLessonId)
-            setLessonId(data.course.modules[0].lessons[0].id)
         }catch (e){
-            console.log(e.message)
+            alert(e)
+            setError(e)
         }
     }, [request])
 
     useEffect(() => {
         fetchCourse()
+        
     }, [fetchCourse])
+
+    if(error){
+        return(
+            <Redirect to='/home'/>
+        )
+    }
 
     return(
         <>

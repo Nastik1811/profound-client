@@ -11,11 +11,13 @@ const ProgressBar:React.FC<ProgressBarPropsType> = ({percentage}) => {
                 <span> {percentage}% completed </span>
             </div>
             <div className="progress-bar">
-                <div className="progress-bar--entire" >
+                <div className="progress--entire" >
                 </div>
-                <div className="progress-bar--competed" data-completed={percentage}>
+                <div className="progress--completed" style={{width: `${percentage}%`}} data-completed={percentage}>
                 </div>
             </div>
         </div>
     )
 }
+
+export default ProgressBar
