@@ -1,7 +1,7 @@
 import {useState, useCallback} from 'react'
 
 
-export const useHttp = () => {
+export const useHttp = (token?: string|null) => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -12,6 +12,9 @@ export const useHttp = () => {
                 body = JSON.stringify(body)
                 headers['Content-Type'] = 'application/json'
               }
+            if(token){
+                headers['Authorization'] = `Bearer ${token}`
+            }
             const res = await fetch(url, {method, body, headers})
             const data = await res.json()
             
