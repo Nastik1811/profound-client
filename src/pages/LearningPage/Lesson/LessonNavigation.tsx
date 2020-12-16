@@ -26,7 +26,7 @@ type LessonNavigationPropsType = {
 const LessonNavigation: React.FC<LessonNavigationPropsType> = ({components, activeIndex, onIndexChange}) => {
     return(
         <div className="lesson-progress-container">
-            {components?.map((c, i) => <NavTab active={activeIndex === i} onClick={() => onIndexChange(i)} completed={true}/>)}
+            {components?.map((c, i) => <NavTab active={activeIndex === i} onClick={() => onIndexChange(i)} completed={c.completed!}/>)}
         </div>
     )
 }

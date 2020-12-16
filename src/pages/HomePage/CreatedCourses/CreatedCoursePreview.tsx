@@ -1,19 +1,20 @@
+import clsx from 'clsx'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 type CoursePreviewProps = {
     id: string,
     title: string,
-    author: string
+    status: string,
+    description?: string
 }
 
-const CreatedCoursePreview : React.FC<CoursePreviewProps> = ({id, title, author}) => {
+const CreatedCoursePreview : React.FC<CoursePreviewProps> = ({id, title, status, description}) => {
     return(
-        <Link className="created-course-preview" to={`/overview/${id}`}>
-            <div className="p-info">
-                <span className="p-title">{title}</span>
-                <span></span>
-            </div>
+        <Link className={clsx("created-course-preview", status)} to={`/overview/${id}`}>
+                <span className="preview--title">{title}</span>
+                 <span className="preview--descriprion">{description}</span>
+                <span className={clsx("preview--status", status)}>{status}</span>
         </Link>
     )
 }
