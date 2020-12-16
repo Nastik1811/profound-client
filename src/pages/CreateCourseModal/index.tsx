@@ -1,29 +1,37 @@
 import { Button, Modal, TextField } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
+import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
+import { baseUrl } from '../../routes'
+import { useFormik } from 'formik'
 
 
 type CourseDetailsType = {
-    name: string,
+    title: string,
     description: string,
-    requirements: string
+    requirements: string,
+    acceptancePercantage: number,
+    price: number
+}
+const defaultInfo = {
+    title: "",
+    description:"",
+    requirements: "",
+    price: 0,
+    acceptancePercantage: 100
 }
 
 const CreateCourseModal: React.FC = () => {
-    const [data, setData] = useState<CourseDetailsType>({
-        name: "",
-        description:"",
-        requirements: ""
-    })
-    const {request} = useHttp()
+    const {token, userId} = useContext(AuthContext)
+    const {request} = useHttp(token)
     const history = useHistory()
 
-    const handleSave = async () => {   
+    const handleSave = async (values: CourseDetailsType) => {   
         try{
-            const res = await request('/course', 'POST', {...data})
-            if(res.course_id){
-                history.push(`/overview/${res.course_id}`)
+            const res = await request(`${baseUrl}/api/teacher/courses/`, 'POST', {course: {...values, creatorId: userId}, courseCategories : [{"id": 1}]})
+            if(res.id){
+                history.push(`/overview/${res.id}`)
             }
         }catch(e){
             alert(e)
@@ -31,6 +39,18 @@ const CreateCourseModal: React.FC = () => {
         }
        
     }
+
+    const formik = useFormik<CourseDetailsType>({
+        initialValues: {
+            title: "",
+            description:"",
+            requirements: "",
+            price: 0,
+            acceptancePercantage: 100
+        },
+        onSubmit: handleSave
+      })
+
 
     return(
         <Modal open={true}>
@@ -41,31 +61,50 @@ const CreateCourseModal: React.FC = () => {
                     </span>
                 </div>
                 <div className="modal--content">
-                        <section className="basic-info-section">
+                        <form className="basic-info-section" onSubmit={formik.handleSubmit}>
                             <TextField
                                 label="Course title"
-                                value={data.name}
-                                onChange={e => setData({...data, name: e.target.value})}
+                                name="title"
+                                value={formik.values.title}
+                                onChange={formik.handleChange}
                             />
                             <TextField 
                                 multiline 
-                                placeholder="Course description" 
+                                name="description"
                                 label="Course description"
-                                value={data.description}
-                                onChange={e => setData({...data, description: e.target.value})}
+                                value={formik.values.description}
+                                onChange={formik.handleChange}
                                 />
                             <TextField 
                                 multiline 
+                                name="requirements"
                                 label="Course requirements"
-                                value={data.requirements}
-                                onChange={e => setData({...data, requirements: e.target.value})}
+                                value={formik.values.requirements}
+                                onChange={formik.handleChange}
                             />
-                        </section>
+                            <TextField 
+                                label="Acceptance creteria"
+                                type="number"
+                                name="acceptancePercantage"
+                                value={formik.values.acceptancePercantage}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField 
+                                label="Price"
+                                type="number"
+                                name="price"
+                                inputProps={{max: 100}}
+                                value={formik.values.price}
+                                onChange={formik.handleChange}
+                            />
+                            <div className="modal--actions">
+                                <Button type="submit">Create</Button>
+                                <Button onClick={history.goBack}>Close</Button>
+                        </div>
+                        </form>
+                        
                 </div>
-                <div className="modal--actions">
-                        <Button onClick={handleSave}>Create</Button>
-                        <Button onClick={history.goBack}>Close</Button>
-                </div>
+                
             </div>
         </Modal>
     )

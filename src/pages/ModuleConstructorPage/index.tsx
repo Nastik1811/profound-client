@@ -1,11 +1,15 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import { uuid } from 'uuidv4'
 import { Button } from '@material-ui/core'
 import  {SetNameModalPropsType} from './SetNameModal'
-import { ContentType, ILesson, ISimpleComponent, ISimpleComponentDetails, LessonComponentType } from '../../types'
+import { ContentType, ILesson, ISimpleComponent, ISimpleComponentDetails, LessonComponentType, RouteParamsType } from '../../types'
 import LessonsList from './LessonsList'
 import ComponentConstructor from './ComponentConstructor'
+import { AuthContext } from '../../context/auth'
+import { useHttp } from '../../hooks/http.hook'
+import { baseUrl } from '../../routes'
+import { useHistory, useParams } from 'react-router-dom'
 
 const defaultParams = {
     open: false,
@@ -16,11 +20,20 @@ const defaultParams = {
 type ParamsType = typeof defaultParams
 
 const ConstructorPage = () => {
+    const {token} = useContext(AuthContext)
+    const {request} = useHttp(token)
+    const {course_id} = useParams<RouteParamsType>()
+    const history = useHistory()
     const [name, setName] = useState<string>("New module")
     const [newLessonName, setNewLessonName] = useState<string>("")
     const [lessons, setLessons] = useState<ILesson[]>([])
     const [constructorParams, setConstructorParams] = useState<ParamsType>(defaultParams)
    
+    const handleSubmit = async () => {
+        await request(`${baseUrl}/api/teacher/course/modules/`, 'POST', {name, lessons, courseId:course_id, order: 1})
+        history.goBack()
+    }
+
     const onAddComponent = (lesson_id: string) => {
         setConstructorParams({
             open: true,
@@ -41,7 +54,7 @@ const ConstructorPage = () => {
         setLessons(lessons => lessons?.map(
             l => {
                 if(l.id === lesson_id){
-                    const componentList = l.components.filter(c => c.id !== id)
+                    const componentList = l.components!.filter(c => c.id !== id)
                     return {...l, components: componentList}
                 }
                 return l
@@ -101,8 +114,8 @@ const ConstructorPage = () => {
                                 value={name} 
                                 onChange={e => setName(e.target.value)}/>
                     <div className="constructor-header--actions">
-                        <Button >Cancel</Button>
-                        <Button color="secondary">Save</Button>
+                        <Button onClick={() => history.goBack()}>Cancel</Button>
+                        <Button color="secondary" onClick={handleSubmit}>Save</Button>
                     </div>
                 </header>
                 <hr className="header--hr"/>

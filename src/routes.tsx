@@ -10,7 +10,7 @@ import LearningPage from './pages/LearningPage'
 import PageNotFound from './pages/PageNotFound'
 import PaymentPage from './pages/PaymentPage'
 
-export const baseUrl = "https://profound-web-app.azurewebsites.net/"
+export const baseUrl = "https://profound-web-app.azurewebsites.net"
 
 const useRoutes = (isAuthenticated:boolean) => {
     if(isAuthenticated){ 

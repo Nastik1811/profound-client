@@ -28,7 +28,7 @@ const CurrentCourses = () => {
                         />
                 )
                 :
-                <Message message="No courses created"/>
+                <Message message="You have no active courses :("/>
             }
             </div>
         </>

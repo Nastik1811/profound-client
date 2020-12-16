@@ -29,8 +29,6 @@ const LearningPage = () => {
         fetchCourse()
     }, [fetchCourse])
 
-    useEffect(() => console.log(lessonId), [lessonId])
-
     return(
         <>
             <div className="sidebar">
