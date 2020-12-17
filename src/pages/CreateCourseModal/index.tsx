@@ -100,7 +100,7 @@ const CreateCourseModal: React.FC = () => {
                             <div className="modal--actions">
                                 <Button type="submit">Create</Button>
                                 <Button onClick={history.goBack}>Close</Button>
-                        </div>
+                            </div>
                         </form>
                         
                 </div>

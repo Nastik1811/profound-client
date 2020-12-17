@@ -4,7 +4,7 @@ import { uuid } from 'uuidv4'
 import { Button } from '@material-ui/core'
 import { ILesson, ISimpleComponent, ISimpleComponentDetails, RouteParamsType } from '../../types'
 import LessonsList from './LessonsList'
-import ComponentConstructor from './ComponentConstructor'
+import ComponentConstructor, { ComponentDetails } from './ComponentConstructor'
 import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { baseUrl } from '../../routes'
@@ -12,7 +12,7 @@ import { useHistory, useParams } from 'react-router-dom'
 
 const defaultParams = {
     open: false,
-    onSave: (details: ISimpleComponentDetails) => {},
+    onSave: (details: ComponentDetails) => {},
     onDismiss: () => {}
 }
 
@@ -50,7 +50,7 @@ const ConstructorPage = () => {
                 maxPoints: c.maxPoints,
                 order: i
             }))
-        })), courseId:31, order: 0})
+        })), courseId:+course_id})
             history.goBack()
         }catch(e){
             alert(e)
@@ -71,7 +71,15 @@ const ConstructorPage = () => {
     }
 
     const onEditComponent = (lesson_id: string) => {
-        console.log('edit')
+        setConstructorParams({
+            open: true,
+            onSave: (details) => {
+                createNewComponent(lesson_id, details)
+            },
+            onDismiss: () => {
+                setConstructorParams(defaultParams)
+            }
+        })
     }
 
     const onDeleteComponent = (lesson_id: string, id: string) => {
@@ -105,12 +113,14 @@ const ConstructorPage = () => {
     }
     
 
-    const createNewComponent = (lesson_id: string, details: ISimpleComponentDetails) => {
+    const createNewComponent = (lesson_id: string, details: ComponentDetails) => {
         const componentList = lessons!.find(l => l.id === lesson_id)?.components
         
         const newComponent: ISimpleComponent = {
-            ...details,
-            id: uuid()
+            id: uuid(),
+            componentType: details.componentType === "theory" ? "theory" : "practice",
+            content: details.content,
+            maxPoints: details.maxPoints
         }
 
 

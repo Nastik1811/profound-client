@@ -28,7 +28,7 @@ export interface IModule{
     name: string,
     lessons?:  ILesson[]
 } 
-type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'
+export type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'| 'theory'
 
 export interface IPrascticalComponent{
     id: string, 
@@ -59,7 +59,8 @@ export type ContentType = string
 export interface ISimpleComponentDetails{
     content: ContentType
     maxPoints: number
-    componentType: LessonComponentType
+    componentType: LessonComponentType,
+    comments?: Comment[]
 }
 
 export interface ISimpleComponent extends ISimpleComponentDetails{
@@ -69,5 +70,16 @@ export interface ISimpleComponent extends ISimpleComponentDetails{
 
 
 export interface ILessonExtended extends ILesson{   
+}
+
+export type Comment = {
+    createdAt: Date
+    id: string,
+    text: string,
+    user:{
+        firstname: string,
+        lastname: string
+    }
+
 }
 
