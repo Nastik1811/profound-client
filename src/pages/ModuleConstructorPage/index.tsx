@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import { uuid } from 'uuidv4'
 import { Button } from '@material-ui/core'
@@ -21,14 +21,26 @@ type ParamsType = typeof defaultParams
 const ConstructorPage = () => {
     const {token} = useContext(AuthContext)
     const {request} = useHttp(token)
-    const {course_id} = useParams<RouteParamsType>()
+    const {module_id, course_id} = useParams<RouteParamsType>()
     const history = useHistory()
     const [name, setName] = useState<string>("")
     const [newLessonName, setNewLessonName] = useState<string>("")
     const [lessons, setLessons] = useState<ILesson[]>([])
     const [constructorParams, setConstructorParams] = useState<ParamsType>(defaultParams)
    
+    useEffect(() => {
+        module_id && request(`${baseUrl}/api/teacher/course/${course_id}`).then(data => {
+            const module = data.course.modules[0]
+            setName(module.name)
+            setLessons(module.lessons)
+        })
+    }, [module_id, course_id])
+
     const handleSubmit = async () => {
+        try{
+            if(name === ""){
+                throw new Error("A module name should not be empty.")
+            }
         await request(`${baseUrl}/api/teacher/course/modules`, 'POST', {name, lessons: lessons.map((l, i) => ({
             name: l.name,
             order: i,
@@ -39,7 +51,11 @@ const ConstructorPage = () => {
                 order: i
             }))
         })), courseId:31, order: 0})
-        history.goBack()
+            history.goBack()
+        }catch(e){
+            alert(e)
+        }
+        
     }
 
     const onAddComponent = (lesson_id: string) => {

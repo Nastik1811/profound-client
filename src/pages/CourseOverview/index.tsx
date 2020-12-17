@@ -7,7 +7,7 @@ import Loader from '../../components/Loader'
 import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { baseUrl } from '../../routes'
-import { ICourse, RouteParamsType } from '../../types'
+import { ICourse, IModule, RouteParamsType } from '../../types'
 import ModuleSection from './ModulesSection'
 
 
@@ -17,6 +17,7 @@ const CourseOverview = () => {
     const {request} = useHttp(token)
     const history = useHistory()
     const [course, setCourse] = useState<ICourse|undefined>(undefined)
+    const [modules, setModules] = useState<IModule[] | undefined>(undefined)
     const [isAuthor, setIsAuthor] = useState<boolean>(false)
     const [isEnrolled, setIsEnrolled] = useState<boolean>(false)
 
@@ -27,6 +28,7 @@ const CourseOverview = () => {
                 throw new Error(`The "${data.course.title}" course is on moderation now. Please, try again later`)
             }
             setCourse(data.course)
+            setModules(data.course.modules)
             setIsAuthor(userId === data.course.creator.id)
             setIsEnrolled(!!data.lastLessonId)
         }catch (e){
@@ -46,8 +48,13 @@ const CourseOverview = () => {
     if(!course){
         return(<Loader/>)
     }
-    const handleDelete = () => {
-        console.log("Delete")
+    const handleDelete = async (id: string) => {
+        try{
+            await request(`${baseUrl}/api/teacher/course/modules/${id}`, 'DELETE')
+            setModules(modules => modules?.filter(m => m.id !== id))
+        }catch(e){
+            alert("Something went wrong")
+        }
     }
 
     const deleteModule = (module_id: string) => {
@@ -88,7 +95,7 @@ const CourseOverview = () => {
 
 
         {isAuthor && <ModuleSection 
-            modules={course.modules ? course.modules : []}
+            modules={modules ? modules : []}
             onAdd={() => history.push(`${history.location.pathname}/constructor`)}
             onDelete={handleDelete}
             onEdit={(module_id: string) => history.push(`${history.location.pathname}/constructor/${module_id}`)}
