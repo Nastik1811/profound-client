@@ -68,8 +68,6 @@ export interface ISimpleComponent extends ISimpleComponentDetails{
     id: string
 }
 
-
-
 export interface ILessonExtended extends ILesson{   
 }
 
@@ -77,10 +75,6 @@ export type Comment = {
     createdAt: Date
     id?: string,
     text: string,
-    user:{
-        firstname: string,
-        lastname: string
-    }
-
+    creator: string
 }
 

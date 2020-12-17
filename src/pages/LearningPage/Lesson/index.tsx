@@ -9,12 +9,13 @@ import { baseUrl } from '../../../routes'
 import { Comment, ILesson, LessonComponent } from '../../../types'
 import Discussion from './Discussion'
 import LessonNavigation from './LessonNavigation'
-import TaskComponent from './TaskComponent'
+import TaskComponent, { Solution } from './TaskComponent'
 
 type LessonPropsType = {
     lesson_id: string,
     course_id: string
 }
+
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     const {token, firstname, lastname, userId} = useContext(AuthContext)
@@ -25,6 +26,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     const [activeIndex, setActiveIndex] = useState<number>(0) 
  
     const [score, setScore] = useState(0)
+    const [solutions, setSolutions ] = useState<Solution[]>([])
 
     const fetchLesson = useCallback(async () => {
         try{
@@ -61,17 +63,20 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
             <Message message="This lesson has no components"/>
         )
     }
-    const onAnswerComponent = (isRight: boolean, id: string) => {
-        console.log(isRight)
+    const onAnswerComponent = async (solution: Solution) => {
+        if(solution.status === "correct" && solution.point > 0){
+            alert("Well done!")
+        }
         setComponets(comp => comp!.map(c => { 
-            if(c.id === id){
-                if(isRight){
-                    setScore(score => score + c.maxPoints)
-                }
+            if(+c.id === solution.componentId){
+                setScore(score => score + solution.point)
                 return {...c, completed: true}
             }
             return c
         }))
+
+        setSolutions(solutions => [...solutions, solution])
+
         if(activeIndex < components!.length - 1){
             setActiveIndex(i => ++i)
         }else{
@@ -80,6 +85,11 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     }
 
     const onFinishLesson = async() => {
+        request(`${baseUrl}/api/course/lessons`, 'POST', {
+            solutions,
+            courseId: course_id,
+            lessonId: lesson_id
+        })
         console.log(components?.filter(c => c.completed === true))
     }
 
@@ -87,10 +97,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
         const comment: Comment = {
             createdAt: new Date(),
             text,
-            user:{
-                firstname: firstname!,
-                lastname: lastname!,
-            }
+            creator: `${firstname} ${lastname}`
         }
         setComponets(comp => comp!.map(c => { 
             if(c.id === componentId){
@@ -124,10 +131,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
                 components && components.length > 0 && 
                 <div className={clsx("task-container", components[activeIndex].componentType)}>
                     <TaskComponent 
-                        completed={components[activeIndex].completed!}
-                        componentId={components[activeIndex].id}
-                        content={components[activeIndex].content} 
-                        componentType={components[activeIndex].componentType}
+                        component={components[activeIndex]}
                         onSubmit={onAnswerComponent}
                     />
                 </div>
