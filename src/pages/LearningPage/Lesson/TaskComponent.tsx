@@ -18,13 +18,13 @@ const TaskComponent: React.FC<TaskComponentPropsType> = ({componentId, content, 
 
     if(componentType === "theory"){
         return <Theory 
-                    content={content}
-                    onSubmit={(isRight) => onSubmit(isRight, componentId)}
-                    completed={completed}
-                />
+            content={content}
+            onSubmit={(isRight) => onSubmit(isRight, componentId)}
+            completed={completed}
+        />
     }
+
     const task = JSON.parse(content)
-    console.log(task)
     if(task.type === "text"){
         return <TextTask 
             text={task.text} 
@@ -32,24 +32,6 @@ const TaskComponent: React.FC<TaskComponentPropsType> = ({componentId, content, 
             onSubmit={(isRight) => onSubmit(isRight, componentId)}
             completed={completed}
             />
-    }
-    if(task.type === "single"){
-        return <SingleTask 
-                    text={task.text} 
-                    options={task.options} 
-                    rightAnswer={task.answers[0]}
-                    onSubmit={(isRight) => onSubmit(isRight, componentId)}
-                    completed={completed}
-                    />
-    }
-    if(task.type === "multiple"){
-        return <MultipleTask 
-                    text={task.text} 
-                    options={task.options} 
-                    rightAnswer={task.answers[0]}
-                    onSubmit={(isRight) => onSubmit(isRight, componentId)}
-                    completed={completed}
-                    />
     }
 
     return(
@@ -75,64 +57,12 @@ const TextTask: React.FC<TextTaskProps> = ({text, rightAnswer, onSubmit, complet
 
     return(
         <>
-            <span className="task-text">{text}</span>
+        
+            <div className="task-text">
+                {HTMLReactParser(text)}
+            </div>
             <TextField label="Enter your answer" value={input} disabled={completed} onChange={e => setInput(e.target.value)} />
             <Button onClick={SubmitAnswer} disabled={completed}>Submit</Button>
-        </>
-    )
-}
-
-type SingleTaskProps = {
-    text: string,
-    options: string[],
-    rightAnswer: string,
-    onSubmit: (isRight: boolean) => void,
-    completed: boolean
-}
-
-const SingleTask: React.FC<SingleTaskProps> = ({text, options, rightAnswer, onSubmit, completed }) => {
-    const [answer, setAnswer] = useState("")
-
-    const SubmitAnswer = () => {
-        onSubmit(answer.toLowerCase() === rightAnswer.toLowerCase())
-    }
-    return(
-        <>
-            <span className="task-text">{text}</span>
-            <RadioGroup>
-                {options.map(o => 
-                    <FormControlLabel key={o} value={o} control={<Radio />} label={o} onClick={console.log}/>
-                )}
-            </RadioGroup>
-            <Button onClick={SubmitAnswer} disabled={completed}>Submit</Button>
-        </>
-    )
-}
-type MultipleTaskProps = {
-    text: string,
-    options: string[],
-    rightAnswer: string[],
-    completed: boolean,
-    onSubmit: (isRight: boolean) => void
-}
-const MultipleTask: React.FC<MultipleTaskProps> = ({text, options }) => {
-    
-    return(
-        <>
-            <span className="task-text">{text}</span>
-            <RadioGroup>
-                {options.map(o => {
-                    <FormControlLabel key={o} value={o} control={<Checkbox />} label={o} />
-                })}
-            </RadioGroup>
-        </>
-    )
-}
-const MatchTask: React.FC<TaskComponentPropsType> = ({content, componentType }) => {
-    
-    return(
-        <>
-            course-component
         </>
     )
 }

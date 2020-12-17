@@ -28,13 +28,12 @@ export interface IModule{
     name: string,
     lessons?:  ILesson[]
 } 
-export type TaskType =  'single' | 'mult' | 'text' | 'sort' | 'match' | 'file'| 'theory'
 
 export interface IPrascticalComponent{
     id: string, 
     title: string
     completed: boolean
-    task_type: TaskType 
+    task_type: "text" 
     task_title: string 
 }
 
@@ -46,8 +45,10 @@ export interface ITheoreticComponent{
 }
 
 export type LessonComponentType = "theory" | "practice"
+
 export interface LessonComponent extends ISimpleComponent{
     completed?: boolean
+    answer?: string
 }
 
 export interface ILesson{

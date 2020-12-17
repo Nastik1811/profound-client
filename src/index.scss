@@ -21,6 +21,7 @@ body {
 html, body{
   height: 100%;
   font-size: 16px;
+  background-color: #f7fffa;
 }
 
 *{
@@ -32,7 +33,6 @@ html, body{
 #root{
   display: flex;
   min-height: 100%;
-  background-color: #f7fffa;
 }
 
 .app-container{
@@ -79,7 +79,7 @@ html, body{
   cursor: pointer;
   color: #191e1e;
   text-decoration: none;
-  height: 190px;
+  height: 180px;
   border-radius: 5px;
   box-shadow: $box-shadow-regular;
   background-color: #e7f8f0;
@@ -90,6 +90,12 @@ html, body{
   &:hover{
     background-color: lighten(#e7f8f0, 5%);
     box-shadow: $box-shadow-regular--hover;
+  }
+  .preview--description{
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
   }
 }
 
@@ -124,11 +130,6 @@ html, body{
   font-size: .9rem;
   padding: 5px 0;
   color: #111;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
 }
 
 .preview--price{
@@ -442,15 +443,22 @@ html, body{
   color: rgb(255, 255, 255);
   padding: 8px 16px;
   //background-color: #226b64;
-  background-color: #1a7a81;
+  background-color: #288686;
   //background-color:#b6e7ce;
   //background-color: rgb(228, 63, 51);
   //background-color: rgb(211, 31, 7);
   border-radius: 2px;
   box-shadow: -2px 2px 10px rgba(94, 94, 94, 0.233);
   &:hover, &:focus{
-    box-shadow:  -2px 2px 15px rgba(65, 104, 101, 0.555);
+    box-shadow:  -2px 2px 15px rgba(65, 104, 101, 0.493);
   }
+  &.reject{
+    background-color: #e6545c;
+    &:hover{
+    box-shadow:  -2px 2px 15px rgba(129, 25, 25, 0.301);
+  }
+  }
+  
 }
 
 .back-btn{
@@ -684,14 +692,20 @@ html, body{
   &.dev{
     background-color: #d7f0f8;
     &:hover{
-      background-color: #eefbff;
+      background-color: #e9faff;
     }
   }
   &.rejected{
     background-color: #fae4e0;
-    &:hover{
-      
-    background-color: #fff7f6;
+    &:hover{   
+      background-color: #fff7f6;
+    }
+  }
+
+  &.on_moderation{
+    background-color: #bad7e0;
+    &:hover{   
+      background-color: #bad7e0;
     }
   }
 
@@ -716,6 +730,9 @@ html, body{
 
   &.rejected{
     color: #ca391f;
+  }
+  &.on_moderation{
+    color: #47666b;
   }
 
 }
@@ -775,6 +792,10 @@ html, body{
   outline: none;
   border-radius: 10px;
   padding: 20px;
+
+  background-image: url('./assets/images/print.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
   // &::before{
   //   content: "";
   //   top:-5px;
@@ -905,11 +926,13 @@ html, body{
   position: relative;
   margin: 10vw auto;
   background-color: #effcf8;
-  min-height: 50vh;
   width: 700px;
   border-radius: 10px;
   padding: 20px;
   box-shadow: -10px 10px 30px #5c68687c;
+  background-image: url('./assets/images/print.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
   
 }
 
@@ -918,6 +941,12 @@ html, body{
   display: grid;
   z-index: 100;
 }
+
+.component-constructor{
+  display: grid;
+  row-gap: 12px;
+}
+
 .lesson-block--actions{
   display: grid;
   grid-auto-flow: column;
@@ -960,8 +989,11 @@ html, body{
   border-radius: 10px;
   padding: 40px 50px 10px;
   min-width: 400px;
-  margin: auto;
+  margin: 24px auto;
   row-gap: 12px;
+  &.theory{
+    width: 90%;
+  }
 }
 
 .task-text{
@@ -992,4 +1024,112 @@ html, body{
 }
 .subtitle{
   font-weight: 400;
+}
+.achievement-list{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.achievement{
+  &.newbie{
+    width: 100%;
+    height: 100%;
+    background-image: url('./assets/images/monsters/2x/Asset\ 25@2x.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+}
+
+.achievement-container{
+  width: 200px;
+  display: grid;
+  grid-template-rows: 200px auto;
+  place-items: center;
+  .title{
+    font-size: 1.5rem;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    color: #075866;
+  }
+}
+
+.container{
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.admin-page{
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+  .title{
+    align-self: center;
+    font-size: 2.2rem;
+    margin-bottom: 0;
+  }
+}
+.admin-courses-list{
+  display: grid;
+  row-gap: 8px;
+  margin: 16px 0;
+}
+.admin-preview{
+  cursor: pointer;
+  display: grid;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-rows: auto 40px auto;
+  color: #191e1e;
+  text-decoration: none;
+  border-radius: 5px;
+  //box-shadow: $box-shadow-regular;
+  background-color:#e7f8f0;
+  border: 1px solid #b5d6c7;
+  transition: $transition-regular;
+ 
+  &:hover{   
+    background-color: #f0fff8;
+  }
+  
+}
+.overview-header{
+  margin: 16px 0;
+  .title{
+    margin-bottom: 0;
+  }
+  display: grid;
+  justify-items: center;
+}
+
+.overview-block{
+  .subtitle{
+    font-size: $font-medium;
+    margin-bottom: 4px;
+  }
+  .header--hr{
+    border-width: 1px;
+    margin-bottom: 4px;
+  }
+  li{
+    display: block;
+    margin-bottom: 8px;
+    margin-left: 24px;
+  }
+}
+
+.lesson-learn-action{
+  display: flex;
+  justify-content: flex-end;
+  
+  
+}
+.score{
+  display: block;
+  font-size: $font-medium;
+  font-weight: 500;
+  color: #288686;
+  margin-top: 12px;
 }
