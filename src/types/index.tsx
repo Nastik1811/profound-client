@@ -74,7 +74,7 @@ export interface ILessonExtended extends ILesson{
 
 export type Comment = {
     createdAt: Date
-    id: string,
+    id?: string,
     text: string,
     user:{
         firstname: string,

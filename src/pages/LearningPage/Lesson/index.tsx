@@ -6,7 +6,7 @@ import Message from '../../../components/Message'
 import { AuthContext } from '../../../context/auth'
 import { useHttp } from '../../../hooks/http.hook'
 import { baseUrl } from '../../../routes'
-import { ILesson, LessonComponent } from '../../../types'
+import { Comment, ILesson, LessonComponent } from '../../../types'
 import Discussion from './Discussion'
 import LessonNavigation from './LessonNavigation'
 import TaskComponent from './TaskComponent'
@@ -17,7 +17,7 @@ type LessonPropsType = {
 }
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
-    const {token} = useContext(AuthContext)
+    const {token, firstname, lastname, userId} = useContext(AuthContext)
     const {request, loading} = useHttp(token)
 
     const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
@@ -82,6 +82,25 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     const onFinishLesson = async() => {
         console.log(components?.filter(c => c.completed === true))
     }
+
+    const onAddComment = (componentId: string, text: string) => {
+        const comment: Comment = {
+            createdAt: new Date(),
+            text,
+            user:{
+                firstname: firstname!,
+                lastname: lastname!,
+            }
+        }
+        setComponets(comp => comp!.map(c => { 
+            if(c.id === componentId){
+                const comments = c.comments || []
+                
+                return {...c, comments: [...comments, comment]}
+            }
+            return c
+        }))
+    }
     
     return(
         <section className="learning-component">
@@ -120,7 +139,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
             { components && components.length > 0 &&
                 <Discussion
                     comments={components[activeIndex].comments || []}
-                    onAddComent={console.log}
+                    onAddComment={text => onAddComment(components[activeIndex].id, text)}
                     componentId={components[activeIndex].id}
                 />
                 }
