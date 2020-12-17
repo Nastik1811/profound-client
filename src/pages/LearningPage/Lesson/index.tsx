@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core'
+import clsx from 'clsx'
 import React, {useCallback, useContext, useEffect, useState } from 'react'
 import Loader from '../../../components/Loader'
 import Message from '../../../components/Message'
@@ -6,6 +7,7 @@ import { AuthContext } from '../../../context/auth'
 import { useHttp } from '../../../hooks/http.hook'
 import { baseUrl } from '../../../routes'
 import { ILesson, LessonComponent } from '../../../types'
+import Discussion from './Discussion'
 import LessonNavigation from './LessonNavigation'
 import TaskComponent from './TaskComponent'
 
@@ -15,31 +17,39 @@ type LessonPropsType = {
 }
 
 const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
-    const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
-    const [activeComponent, setActiveComponet] = useState<LessonComponent|undefined>(undefined)
-    const [activeIndex, setActiveIndex] = useState<number>(0) 
     const {token} = useContext(AuthContext)
-    const {request} = useHttp(token)
+    const {request, loading} = useHttp(token)
+
+    const [lesson, setLesson] = useState<ILesson|undefined>(undefined)
+    const [components, setComponets] = useState<LessonComponent[]|undefined>(undefined)
+    const [activeIndex, setActiveIndex] = useState<number>(0) 
+ 
+    const [score, setScore] = useState(0)
 
     const fetchLesson = useCallback(async () => {
         try{
             const data = await request(`${baseUrl}/api/course/${course_id}/lesson/${lesson_id}`)
             setLesson(data)
+            setComponets(data.components)
             setActiveIndex(0)
         }catch (e){
             console.log(e.message)
         }
     }, [request, lesson_id, course_id])
 
-    useEffect(() => {
-        if(lesson?.components){
-            setActiveComponet(lesson.components[activeIndex])
-        }
-    }, [activeIndex, lesson])
+    // useEffect(() => {
+    //     if(lesson?.components){
+    //         setComponets(lesson.components)
+    //     }
+    // }, [activeIndex, lesson])
 
     useEffect(() => {
         fetchLesson()
     }, [fetchLesson])
+
+    if(loading){
+        return <Loader/>
+    }
 
     if(!lesson){
         return(
@@ -51,8 +61,26 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
             <Message message="This lesson has no components"/>
         )
     }
-    const onAnswer = () => {
+    const onAnswerComponent = (isRight: boolean, id: string) => {
+        console.log(isRight)
+        setComponets(comp => comp!.map(c => { 
+            if(c.id === id){
+                if(isRight){
+                    setScore(score => score + c.maxPoints)
+                }
+                return {...c, completed: true}
+            }
+            return c
+        }))
+        if(activeIndex < components!.length - 1){
+            setActiveIndex(i => ++i)
+        }else{
+            alert("It was the last component in this lesson. You are ready to finish it.")
+        }
+    }
 
+    const onFinishLesson = async() => {
+        console.log(components?.filter(c => c.completed === true))
     }
     
     return(
@@ -60,24 +88,42 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
             <header>
                 <h3 className="component-title">О нас</h3>
                 <hr className="delimiter"/>
-                {lesson.components &&
-                    <LessonNavigation 
-                        components={lesson.components} 
-                        activeIndex={activeIndex} 
-                        onIndexChange={setActiveIndex}
-                        />
-                }
+                <div style={{display: `flex`, justifyContent: `space-between`}}>
+                    {components &&
+                        <LessonNavigation 
+                            components={components} 
+                            activeIndex={activeIndex} 
+                            onIndexChange={setActiveIndex}
+                            />
+                    }
+                <span className="score">Score: {score}</span>
+                </div>
+                
             </header>
+
             {
-                activeComponent && 
-                <div className="task-container">
-                    <TaskComponent content={activeComponent.content} componentType={activeComponent.componentType}/>
-                    <Button size="large" color="inherit" onClick={onAnswer}>Submit</Button>
+                components && components.length > 0 && 
+                <div className={clsx("task-container", components[activeIndex].componentType)}>
+                    <TaskComponent 
+                        completed={components[activeIndex].completed!}
+                        componentId={components[activeIndex].id}
+                        content={components[activeIndex].content} 
+                        componentType={components[activeIndex].componentType}
+                        onSubmit={onAnswerComponent}
+                    />
                 </div>
 
-
             }
-            {/* <a href="#" className="to-next">Next step</a> */}
+            <div className="lesson-learn-action mt-2">
+                <button className="to-next" onClick={onFinishLesson}>Finish lesson</button>
+            </div>
+            { components && components.length > 0 &&
+                <Discussion
+                    comments={components[activeIndex].comments || []}
+                    onAddComent={console.log}
+                    componentId={components[activeIndex].id}
+                />
+                }
         </section>
         
     )
