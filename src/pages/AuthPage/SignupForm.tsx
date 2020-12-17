@@ -3,6 +3,8 @@ import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { baseUrl } from '../../routes'
 import Input from './Input'
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 const defaultForm = {
     firstname: "",
@@ -14,29 +16,54 @@ const defaultForm = {
 
 type FormInput = typeof defaultForm
 
+const validationSchema = Yup.object({
+  email: Yup.string().email().required("Required"),
+  password: Yup.string().required("Required").min(7),
+  lastname: Yup.string().required("Required"),
+  confirm: Yup.string().oneOf(
+    [Yup.ref('password'), null],
+     'Passwords must match',
+   ),
+  firstname: Yup.string().required("Required"),
+})
+
+
 const SignupForm = () => {
-    const [form, setForm] = useState<FormInput>(defaultForm)
     const {request} = useHttp()
     const {login} = useContext(AuthContext)
 
-    const handleSignup = async (event: FormEvent) => {
-        event.preventDefault();
+    const {handleSubmit, errors, values, handleChange} = useFormik(
+      {
+        initialValues:{
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          confirm: ""
+        },
+        validationSchema,
+        onSubmit: async (values) =>  handleSignup(values),
+        validateOnChange: false
+      }
+    )
+
+    const handleSignup = async (values: FormInput) => {
         try {
-          const res = await request(`${baseUrl}/api/account/register`, 'POST', form)
-          login(res.access_token, res.id, res.firstName, res.lastName);
+          const res = await request(`${baseUrl}/api/account/register`, 'POST', values)
+          login(res.access_token, res.id, res.firstName, res.lastName, res.role);
         } catch (error) {
           alert(error);
         }
       }
 
     return(
-        <form className="auth-form" onSubmit={handleSignup}>
+        <form className="auth-form" onSubmit={handleSubmit}>
             <h1 className="title">Sign Up</h1>
-            <Input value={form.firstname} onChange={(firstname: string) => setForm(data => ({...data, firstname}))} label="First name"/>
-            <Input value={form.lastname} onChange={(lastname: string) => setForm(data => ({...data, lastname}))} label="Last name"/>
-            <Input value={form.email} onChange={(email: string) => setForm(data => ({...data, email}))} label="Email"/>
-            <Input type="password" value={form.password} onChange={(password: string) => setForm(data => ({...data, password}))} label="Password"/>
-            <Input type="password" value={form.confirm} onChange={(confirm: string) => setForm(data => ({...data, confirm}))} label="Confirm Password"/>
+            <Input name="firstname" value={values.firstname} onChange={handleChange} label="First name" error={errors.firstname}/>
+            <Input name="lastname" value={values.lastname} onChange={handleChange} label="Last name" error={errors.lastname}/>
+            <Input name="email" value={values.email} onChange={handleChange} label="Email" error={errors.email}/>
+            <Input name="password" type="password" value={values.password} onChange={handleChange} label="Password" error={errors.password}/>
+            <Input name="confirm" type="password" value={values.confirm} onChange={handleChange} label="Confirm Password" error={errors.confirm}/>
             <button className="submit-btn auth-submit" type="submit" >Sign up</button>
         </form>
     )

@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactNode, useState } from 'react'
+import React from 'react'
 import Loader from '../components/Loader'
 import { useAuth } from '../hooks/auth.hook'
 
@@ -9,7 +9,8 @@ type AuthContexType = {
     userId: string | null,
     firstname: string | null,
     lastname: string | null,
-    login: (jwtToken: string, id: string, firstname: string, lastname: string) => void,
+    role: "user" | "admin" | null,
+    login: (jwtToken: string, id: string, firstname: string, lastname: string, role: "user" | "admin") => void,
     logout: () => void,
     isAuthenticated: boolean
 }
@@ -18,13 +19,14 @@ export const AuthContext = React.createContext<AuthContexType>({
   userId: null,
   firstname: null ,
   lastname: null ,
-  login: (jwtToken: string, id: string, firstname: string, lastname: string) => {},
+  role: null,
+  login: (jwtToken: string, id: string, firstname: string, lastname: string, role: "user" | "admin") => {},
   logout: () => {},
   isAuthenticated: false
 })
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-    const {login, token, userId, firstname, lastname, logout, ready} = useAuth()
+    const {login, token, userId, firstname, lastname, logout, ready, role} = useAuth()
     const isAuthenticated = !!token
 
     if(!ready){
@@ -35,7 +37,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
     return(
         <AuthContext.Provider value={{
-            token, login, logout, firstname, lastname, userId, isAuthenticated
+            token, login, logout, firstname, lastname, userId, isAuthenticated, role
         }}>
             {children}
         </AuthContext.Provider>

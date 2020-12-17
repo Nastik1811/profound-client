@@ -19,7 +19,7 @@ export const useHttp = (token?: string|null) => {
             const data = await res.json().catch(console.log)
             
             if(!res.ok){
-                throw new Error(data.message || "Something went wrong")
+                throw new Error(data.errorText || "Something went wrong")
             }
             
             setLoading(false)
