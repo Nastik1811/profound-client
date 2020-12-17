@@ -18,13 +18,13 @@ interface IComponentBlockProps extends ISimpleComponent{
     onEdit: () => void
 }
 
-const ComponentBlock: React.FC<IComponentBlockProps> = ({id, order, points, content, componentType, onEdit, onDelete}) => {
+const ComponentBlock: React.FC<IComponentBlockProps> = ({id, maxPoints, content, componentType, onEdit, onDelete}) => {
     return(
         <div className="component-block">
             <span>#</span>
             <span>{content}</span>
             <span>{componentType}</span>
-            <span>{points}</span>
+            <span>{maxPoints}</span>
             <IconButton onClick={onDelete}>
                     <DeleteIcon fontSize="small"/>
             </IconButton>
@@ -56,10 +56,9 @@ const LessonBlock: React.FC<LessonBlockPropsType> = ({name, components, onDelete
                         (c) => <ComponentBlock 
                                 key={c.id}
                                 id={c.id} 
-                                order={c.order} 
                                 content={c.content} 
                                 componentType={c.componentType} 
-                                points={c.points} 
+                                maxPoints={c.maxPoints} 
                                 onEdit={onEditComponent}
                                 onDelete={() => onDeleteComponent(c.id)}
                                 />

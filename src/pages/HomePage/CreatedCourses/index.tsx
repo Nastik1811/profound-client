@@ -37,6 +37,7 @@ const CreatedCourses = () => {
             {
                 courses.length > 0 && courses.map( c =>
                     <CreatedCoursePreview 
+                        key={c.id}
                         id={c.id}
                         status={c.status}
                         title={c.title}

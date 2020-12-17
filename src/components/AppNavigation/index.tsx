@@ -5,7 +5,7 @@ import DropdownMenu from '../DropdownMenu'
 import UserMenu from '../UserMenu'
 
 const AppNavigation = () => {
-    const {isAuthenticated} = useContext(AuthContext)
+    const {isAuthenticated, firstname} = useContext(AuthContext)
     
     return(
             <nav className="app-nav">
@@ -14,7 +14,7 @@ const AppNavigation = () => {
                 </NavLink> 
 
                 {isAuthenticated?
-                    <DropdownMenu title="User name">
+                    <DropdownMenu title={firstname || ""}>
                         <UserMenu className="menu-list-dropdown"/>
                     </DropdownMenu>
                     :

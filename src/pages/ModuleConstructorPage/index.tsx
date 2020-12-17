@@ -1,9 +1,8 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AppNavigation from '../../components/AppNavigation'
 import { uuid } from 'uuidv4'
 import { Button } from '@material-ui/core'
-import  {SetNameModalPropsType} from './SetNameModal'
-import { ContentType, ILesson, ISimpleComponent, ISimpleComponentDetails, LessonComponentType, RouteParamsType } from '../../types'
+import { ILesson, ISimpleComponent, ISimpleComponentDetails, RouteParamsType } from '../../types'
 import LessonsList from './LessonsList'
 import ComponentConstructor from './ComponentConstructor'
 import { AuthContext } from '../../context/auth'
@@ -24,20 +23,20 @@ const ConstructorPage = () => {
     const {request} = useHttp(token)
     const {course_id} = useParams<RouteParamsType>()
     const history = useHistory()
-    const [name, setName] = useState<string>("New module")
+    const [name, setName] = useState<string>("")
     const [newLessonName, setNewLessonName] = useState<string>("")
     const [lessons, setLessons] = useState<ILesson[]>([])
     const [constructorParams, setConstructorParams] = useState<ParamsType>(defaultParams)
    
     const handleSubmit = async () => {
-        await request(`${baseUrl}/api/teacher/course/modules`, 'POST', {name, lessons: lessons.map(l => ({
+        await request(`${baseUrl}/api/teacher/course/modules`, 'POST', {name, lessons: lessons.map((l, i) => ({
             name: l.name,
-            order: l.order,
-            components: l.components?.map(c =>({
+            order: i,
+            components: l.components?.map((c,i) =>({
                 content: c.content, 
                 componentType: c.componentType,
                 maxPoints: c.maxPoints,
-                order: c.order
+                order: i
             }))
         })), courseId:31, order: 0})
         history.goBack()
@@ -82,7 +81,6 @@ const ConstructorPage = () => {
         }
         const newLesson: ILesson = {
             id: uuid(),
-            order: lessons?.length || 0,
             name: newLessonName,
             components: []
         }
@@ -96,8 +94,7 @@ const ConstructorPage = () => {
         
         const newComponent: ISimpleComponent = {
             ...details,
-            id: uuid(),
-            order: componentList?.length || 0
+            id: uuid()
         }
 
 

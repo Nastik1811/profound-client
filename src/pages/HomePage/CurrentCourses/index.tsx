@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loader from '../../../components/Loader'
 import Message from '../../../components/Message'
 import { AuthContext } from '../../../context/auth'
 import { useHttp } from '../../../hooks/http.hook'
@@ -12,7 +13,7 @@ const CurrentCourses = () => {
     const {token} = useContext(AuthContext)
     const {request, loading} = useHttp(token)
     useEffect(()=>{
-        request('https://profound-web-app.azurewebsites.net/api/course').then(setCourses).catch(console.log)
+        request('https://profound-web-app.azurewebsites.net/api/course/user').then(setCourses).catch(console.log)
     },[])
 
     return(
@@ -22,13 +23,14 @@ const CurrentCourses = () => {
             </header>
             <div className="created-course-list">
             {
+                loading ? <Loader/> :
                 courses?.length ? courses.map( c =>
                     <CurrentCoursePreview 
+                        key={c.id}
                         id={c.id}
                         author={`${c.creator.firstName} ${c.creator.lastName}`}
                         title={c.title}
-                        lessons_number={20}
-                        passed_lessons_number={5}
+                        progress={c.progress || 0}
                         />
                 )
                 :

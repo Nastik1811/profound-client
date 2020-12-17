@@ -1,9 +1,10 @@
 import React from 'react'
+import Message from '../../components/Message'
 
 const PageNotFound = () => {
     return(
-        <div>
-            404 PAGE NOT FOUND
+        <div className="container">
+            <Message message= "404 PAGE NOT FOUND" />
         </div>
     )
 }

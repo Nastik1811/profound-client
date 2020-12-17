@@ -13,7 +13,7 @@ const CreatedCoursePreview : React.FC<CoursePreviewProps> = ({id, title, status,
     return(
         <Link className={clsx("created-course-preview", status)} to={`/overview/${id}`}>
                 <span className="preview--title">{title}</span>
-                 <span className="preview--descriprion">{description}</span>
+                 <span className="preview--description">{description}</span>
                 <span className={clsx("preview--status", status)}>{status}</span>
         </Link>
     )

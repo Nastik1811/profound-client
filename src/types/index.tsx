@@ -9,11 +9,14 @@ export interface ICoursePreview{
     description?: string
     price?: string
     status: string
+    publishedAt?: Date
+    progress?: number
 }
 
 export interface ICourse{
     id: string
     title: string
+    creator?: {id:number, firstName: string, lastName: string}
     description?: string
     requirements?: string
     price?: number
@@ -50,7 +53,6 @@ export interface LessonComponent extends ISimpleComponent{
 export interface ILesson{
     id: string
     name: string
-    order: number
     components?: LessonComponent[]
 }
 export type ContentType = string
@@ -62,7 +64,6 @@ export interface ISimpleComponentDetails{
 
 export interface ISimpleComponent extends ISimpleComponentDetails{
     id: string
-    order: number 
 }
 
 
