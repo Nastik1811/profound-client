@@ -23,11 +23,15 @@ const CourseOverview = () => {
     const fetchCourse = useCallback(async () => {
         try{
             const data = await request(`https://profound-web-app.azurewebsites.net/api/course/${course_id}`)
+            if(data.course.status === "on_moderation"){
+                throw new Error(`The "${data.course.title}" course is on moderation now. Please, try again later`)
+            }
             setCourse(data.course)
             setIsAuthor(userId === data.course.creator.id)
             setIsEnrolled(!!data.lastLessonId)
         }catch (e){
-            console.log(e.message)
+            alert(e.message)
+            history.push('/home')
         }
     }, [request])
 
