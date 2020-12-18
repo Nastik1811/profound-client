@@ -115,12 +115,12 @@ const ConstructorPage = () => {
 
     const createNewComponent = (lesson_id: string, details: ComponentDetails) => {
         const componentList = lessons!.find(l => l.id === lesson_id)?.components
-        
+        const content = details.componentType === "theory" ? details.content : JSON.stringify({text: details.content, answers: [details.answer]})
         const newComponent: ISimpleComponent = {
             id: uuid(),
-            componentType: details.componentType === "theory" ? "theory" : "practice",
-            content: details.content,
-            maxPoints: details.maxPoints
+            componentType: details.componentType,
+            content,
+            maxPoints: +details.maxPoints
         }
 
 

@@ -14,8 +14,8 @@ type TaskComponentPropsType = {
 export type Solution = {
     componentId: number,
     status: "wrong" | "correct",
-    point: number,
-    answer?: string[]
+    points: number,
+    answers?: string[]
 }
 
 const TaskComponent: React.FC<TaskComponentPropsType> = ({component, onSubmit}) => {
@@ -25,7 +25,6 @@ const TaskComponent: React.FC<TaskComponentPropsType> = ({component, onSubmit}) 
     const parsedContent = component.componentType === "practice" && JSON.parse(component.content)
     const text = parsedContent ? parsedContent.text : component.content
     const rightAnswer = parsedContent ? parsedContent.answers[0] : ""
-    console.log(text, rightAnswer)
 
     const SubmitAnswer = () => {
 
@@ -33,12 +32,16 @@ const TaskComponent: React.FC<TaskComponentPropsType> = ({component, onSubmit}) 
             {
                 componentId: +component.id,
                 status: rightAnswer === input ? "correct" : "wrong",
-                point: rightAnswer === input ? component.maxPoints : 0,
-                answer: [input]
+                points: rightAnswer === input ? component.maxPoints : 0,
+                answers: component.componentType === "practice" ? [input] : undefined
             }
         )
     }
-
+    // if(component.componentType in ["pr", "theory"]{
+    //     return(
+    //         <Message message="Undefined task type :("/>
+    //     )
+    // }
     return(
         <>
             <div className="task-text">
@@ -55,9 +58,7 @@ const TaskComponent: React.FC<TaskComponentPropsType> = ({component, onSubmit}) 
         </>
     )
 
-    return(
-        <Message message="Undefined task type :("/>
-    )
+    
 }
 
 export default TaskComponent

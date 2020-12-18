@@ -38,11 +38,11 @@ const AdminOverview = () => {
     }, [fetchCourse])
 
     const publishCourse = async () => {
-        //await request(`${baseUrl}/api/teacher/course/${course_id}/requestToPublish`, 'POST')
+        await request(`${baseUrl}/api/admin/${course_id}/publish`, 'POST')
         history.push('/admin')
     }
     const declineCourse = async (message: string) => {
-        //await request(`${baseUrl}/api/teacher/course/${course_id}/requestToPublish`, 'POST')
+        await request(`${baseUrl}/api/admin/${course_id}/reject`, 'POST', {rejectMessage: message})
         history.push('/admin')
     }
     const openModal = () => {

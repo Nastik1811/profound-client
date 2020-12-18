@@ -318,8 +318,25 @@ html, body{
     opacity: 100%;
     border: 2px solid #578a8a;
   }
-}
 
+  &.error{
+    background-color: #ce74640c;
+    border-color: transparent transparent #ca391fab transparent ;
+  }
+}
+.input-label{
+  position: relative;
+}
+.error-message{
+  position: absolute;
+  top: -18px;
+  right: 4px;
+  color: #c40000e8;
+  font-size: $font-small;
+  &::before{
+    content: '* ';
+  }
+}
 .submit-btn{
   font-size: $font-medium;
   transition: $transition-regular;
@@ -458,6 +475,13 @@ html, body{
     box-shadow:  -2px 2px 15px rgba(129, 25, 25, 0.301);
   }
   }
+  &:disabled{
+
+    background-color: #6c8888;
+    &:hover, &:focus{
+      box-shadow:  none;
+    }
+  }
   
 }
 
@@ -513,14 +537,18 @@ html, body{
 }
 
 .comment{
+  margin: auto;
   margin-top: 12px;
-  max-width: 600px;
+  max-width: 700px;
   //background-color: rgba(255, 250, 225, 0.4);
   //border: 2px solid rgba(247, 237, 190, 0.712);
   background-color: #ECF8F4;
   border: 2px solid #DFEDE9;
   border-radius: 3px;
-  padding: 8px 12px;
+  padding: 12px 20px;
+  display: grid;
+  row-gap: 12px;
+  
 }
 
 .lesson-progress-container{
@@ -674,7 +702,7 @@ html, body{
   text-decoration: none;
   width: 100%;
   //max-width: 350px;
-  padding: 16px 20px;
+  padding: 20px 20px;
   min-height: 100px;
   border-radius: 5px;
   background-color: #effcf8;
@@ -706,6 +734,7 @@ html, body{
     background-color: #bad7e0;
     &:hover{   
       background-color: #bad7e0;
+      box-shadow: -3px 3px 8px #96afab98;
     }
   }
 
@@ -716,7 +745,7 @@ html, body{
 .preview--status{
   position: absolute;
   right: 12px;
-  top: 0;
+  top: -4px;
   font-weight: 500;
   display: block;
   margin-top: 12px;
@@ -924,7 +953,7 @@ html, body{
 
 .constructor-container{
   position: relative;
-  margin: 10vw auto;
+  margin: 5vw auto;
   background-color: #effcf8;
   width: 700px;
   border-radius: 10px;
@@ -1132,4 +1161,21 @@ html, body{
   font-weight: 500;
   color: #288686;
   margin-top: 12px;
+}
+.discussion-invite{
+  margin: auto;
+  width: 700px;
+  column-gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.discussion-header{
+  margin: auto;
+  width: 700px;
+  margin-bottom: 12px;
+  .component-title{
+    margin-left: 12px;
+    font-weight: 500;
+  }
 }

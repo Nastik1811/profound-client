@@ -20,6 +20,7 @@ export interface ICourse{
     description?: string
     requirements?: string
     price?: number
+    status?: CourseStatus
     modules?: IModule[]
 }
 
@@ -55,6 +56,7 @@ export interface ILesson{
     id: string
     name: string
     components?: LessonComponent[]
+    completed?: boolean
 }
 export type ContentType = string
 export interface ISimpleComponentDetails{
@@ -78,3 +80,4 @@ export type Comment = {
     creator: string
 }
 
+export type CourseStatus = "on_moderation" | "dev" | "published" | "rejected"

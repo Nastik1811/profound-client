@@ -30,20 +30,18 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
 
     const fetchLesson = useCallback(async () => {
         try{
+            setActiveIndex(0)
             const data = await request(`${baseUrl}/api/course/${course_id}/lesson/${lesson_id}`)
             setLesson(data)
             setComponets(data.components)
-            setActiveIndex(0)
+            setSolutions([])
+            setScore(0)
         }catch (e){
             console.log(e.message)
         }
     }, [request, lesson_id, course_id])
 
-    // useEffect(() => {
-    //     if(lesson?.components){
-    //         setComponets(lesson.components)
-    //     }
-    // }, [activeIndex, lesson])
+
 
     useEffect(() => {
         fetchLesson()
@@ -64,12 +62,12 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
         )
     }
     const onAnswerComponent = async (solution: Solution) => {
-        if(solution.status === "correct" && solution.point > 0){
+        if(solution.status === "correct" && solution.points > 0){
             alert("Well done!")
         }
         setComponets(comp => comp!.map(c => { 
             if(+c.id === solution.componentId){
-                setScore(score => score + solution.point)
+                setScore(score => score + solution.points)
                 return {...c, completed: true}
             }
             return c
@@ -85,12 +83,12 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
     }
 
     const onFinishLesson = async() => {
-        request(`${baseUrl}/api/course/lessons`, 'POST', {
+        await request(`${baseUrl}/api/course/lessons`, 'POST', {
             solutions,
-            courseId: course_id,
-            lessonId: lesson_id
+            courseId: +course_id,
+            lessonId: +lesson_id
         })
-        console.log(components?.filter(c => c.completed === true))
+
     }
 
     const onAddComment = (componentId: string, text: string) => {
@@ -138,7 +136,7 @@ const Lesson:React.FC<LessonPropsType> = ({lesson_id, course_id}) => {
 
             }
             <div className="lesson-learn-action mt-2">
-                <button className="to-next" onClick={onFinishLesson}>Finish lesson</button>
+                <button className="to-next" onClick={onFinishLesson} disabled={lesson.completed}>Finish lesson</button>
             </div>
             { components && components.length > 0 &&
                 <Discussion

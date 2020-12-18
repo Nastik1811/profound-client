@@ -14,8 +14,18 @@ import AdminOverview from './pages/AdminPage/AdminOverview'
 
 export const baseUrl = "https://profound-web-app.azurewebsites.net"
 
-const useRoutes = (isAuthenticated:boolean) => {
-    if(isAuthenticated){ 
+const useRoutes = (isAuthenticated:boolean, role: "admin" | "user" | null ) => {
+        if(role === "admin"){
+            return(
+            <Switch>
+                <Route path="/admin/overview/:course_id" component={AdminOverview}/>
+                <Route path="/admin" component={AdminPage}/> 
+                <Route path="/overview/:course_id" component={CourseOverview}/> 
+                <Route path="/home" component={HomePage}/>
+                <Redirect to="/admin"/>
+            </Switch>)
+        }
+        if(isAuthenticated){ 
         return(
             <Switch>
                 <Route exact path="/" component={DiscoverPage}/>
@@ -27,8 +37,6 @@ const useRoutes = (isAuthenticated:boolean) => {
                 <Route path="/overview/:course_id/constructor/:module_id?" component={ConstructorPage}/>
                 <Route path="/overview/:course_id" component={CourseOverview}/> 
                 <Route path="/payment/:course_id" component={PaymentPage}/> 
-                <Route path="/admin/overview/:course_id" component={AdminOverview}/>
-                <Route path="/admin" component={AdminPage}/> 
                 <Redirect path="/auth" to="/"/>
                 <Route component={PageNotFound}/>
             </Switch>

@@ -4,14 +4,14 @@ import CoursePreview from '../../components/CoursePreview'
 import Loader from '../../components/Loader'
 import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
-import { ICoursePreview } from '../../types'
+import { CourseStatus, ICoursePreview } from '../../types'
 
 const DiscoverPage = () => {
     const [courses, setCourses] = useState<ICoursePreview[]|undefined>(undefined)
     const {token} = useContext(AuthContext)
     const {request, loading} = useHttp(token)
     useEffect(()=>{
-        request('https://profound-web-app.azurewebsites.net/api/course').then(setCourses).catch(console.log)
+        request('https://profound-web-app.azurewebsites.net/api/course').then((data) => setCourses(data.filter((c: { status: CourseStatus }) => c.status === "published"))).catch(console.log)
     },[])
 
     return(

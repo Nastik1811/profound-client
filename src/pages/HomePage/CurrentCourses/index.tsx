@@ -30,7 +30,7 @@ const CurrentCourses = () => {
                         id={c.id}
                         author={`${c.creator.firstName} ${c.creator.lastName}`}
                         title={c.title}
-                        progress={c.progress || 0}
+                        progress={c.progress ? c.progress * 100 : 0}
                         />
                 )
                 :

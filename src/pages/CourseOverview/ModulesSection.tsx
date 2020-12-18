@@ -27,7 +27,9 @@ const ModuleSection: React.FC<ModuleSectionPropsType> = ({modules, onAdd, onEdit
                         onDelete={() => onDelete(m.id)}
                         onEdit={() => onEdit(m.id)}
                     >
-                        
+                        {m.lessons?.map(l => <li className="lesson">
+                                {l.name}
+                            </li>)}
                     </ModuleBlock>)
                     :
                     <Message message="No modules created"/>

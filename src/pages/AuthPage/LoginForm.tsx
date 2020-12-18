@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React, { FormEvent, useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AuthContext } from '../../context/auth'
 import { useHttp } from '../../hooks/http.hook'
 import { baseUrl } from '../../routes'

@@ -7,6 +7,8 @@ import "react-credit-cards/es/styles-compiled.css";
 import { Button, TextField } from '@material-ui/core'
 import { baseUrl } from '../../routes'
 import { AuthContext } from '../../context/auth'
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 type cardDetails = {
     cvc: string,
@@ -16,12 +18,14 @@ type cardDetails = {
     number: string,
 }
 
-const cardDetailsDefault = {
-    number: "",
-    name: "",
-    expiry: "",
-    cvc: ""
-}
+
+const validationSchema = Yup.object({
+  number: Yup.string().max(16).required("Required"),
+  name: Yup.string().required("Required"),
+  expiry: Yup.string().required("Required"),
+  cvc: Yup.string().min(3).max(4).required("Required")
+})
+
 
 type FocusedFildName = "name" | "number" | "cvc" | "expiry" | undefined
 const PaymentPage = () => {
@@ -29,7 +33,21 @@ const PaymentPage = () => {
     const {token} = useContext(AuthContext)
     const {request} = useHttp(token)
     const history = useHistory()
-    const [details, setDetails] = useState<cardDetails>(cardDetailsDefault)
+    const [focused, setFocused] = useState<FocusedFildName>()
+
+    const {handleSubmit, errors, values, handleChange} = useFormik(
+      {
+        initialValues:{
+          number: "",
+          name: "",
+          expiry: "",
+          cvc: ""
+        },
+        validationSchema,
+        onSubmit: async () =>  handlePayment(),
+        validateOnChange: true
+      }
+    )
 
     const handlePayment = async () => {
         try{
@@ -41,18 +59,10 @@ const PaymentPage = () => {
         }
     }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const target = e.target
-        if (target.name === "number") {
-          //target.value = formatCardNumber(target.value);
-        } else if (target.name === "expiry") {
-          //target.value = formatExpirationDate(target.value);
-        } else if (target.name === "cvc") {
-          //target.value = formatCVC(target.value);
-        }
-    
-        setDetails(d => ({ ...d, [target.name]: target.value, focused: target.name as FocusedFildName }));
-      };
+    const handleWithFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+      handleChange(e) 
+      setFocused(e.target.name as FocusedFildName)
+    }
 
     return(
         <div className="payment-container">
@@ -60,21 +70,20 @@ const PaymentPage = () => {
             <hr className="header--hr"/>
             <div className="payment--details">
             <Card
-                    cvc={details.cvc}
-                    expiry={details.expiry}
-                    focused={details.focused}
-                    name={details.name}
-                    number={details.number}
+                    cvc={values.cvc}
+                    expiry={values.expiry}
+                    focused={focused}
+                    name={values.name}
+                    number={values.number}
                 />
-            <form className="payment-form">
+            <form className="payment-form" onSubmit={handleSubmit}>
                 <TextField
                     type="tel"
                     name="number"
                     className="form-control"
                     placeholder="Card Number"
-                    inputProps={{pattern: "[\d| ]{16,22}"}}
                     required
-                    onChange={handleInputChange}
+                    onChange={handleWithFocus}
                 />
                 <small>E.g.: 49..., 51..., 36..., 37...</small>
               <TextField
@@ -83,27 +92,25 @@ const PaymentPage = () => {
                 className="form-control"
                 placeholder="Name"
                 required
-                onChange={handleInputChange}
+                onChange={handleWithFocus}
               />
             <TextField
                 type="tel"
                 name="expiry"
                 className="form-control"
                 placeholder="Valid Thru"
-                inputProps={{pattern:"\d\d/\d\d"}}
                 required
-                onChange={handleInputChange}
+                onChange={handleWithFocus}
             />
             <TextField
                 type="tel"
                 name="cvc"
                 className="form-control"
                 placeholder="CVC"
-                inputProps={{pattern:"\d{3,4}"}}
                 required
-                onChange={handleInputChange}
+                onChange={handleWithFocus}
             />
-            <Button variant="outlined" onClick={handlePayment} >PAY</Button>
+            <Button variant="outlined" type="submit" >PAY</Button>
             </form>
                 
             </div>

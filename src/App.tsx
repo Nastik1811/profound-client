@@ -4,8 +4,8 @@ import { AuthContext } from './context/auth';
 import useRoutes from './routes'
 
 function App() {
-  const {isAuthenticated} = useContext(AuthContext)
-  const routes = useRoutes(isAuthenticated)
+  const {isAuthenticated, role} = useContext(AuthContext)
+  const routes = useRoutes(isAuthenticated, role)
 
   return (
     <div className="app-container">

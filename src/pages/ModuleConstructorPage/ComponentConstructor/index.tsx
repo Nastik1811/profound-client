@@ -1,8 +1,7 @@
 import { Button, createStyles, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField, Theme } from '@material-ui/core'
 import { Editor } from '@tinymce/tinymce-react'
 import React, { useEffect, useState } from 'react'
-import { TaskType } from '../../../types'
-
+import { LessonComponentType } from '../../../types'
 
 interface IComponentConstructorProps {
     open: boolean
@@ -12,12 +11,14 @@ interface IComponentConstructorProps {
 
 export type ComponentDetails = {
     content: string,
+    answer?: string,
     maxPoints: number,
-    componentType: TaskType
+    componentType: LessonComponentType
 }
 
 const defaultDetails: ComponentDetails = {
     content: "",
+    answer: "",
     maxPoints: 0,
     componentType: "theory"
 }
@@ -34,10 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+
 const ComponentConstructor: React.FC<IComponentConstructorProps> = ({open, onSave, onDismiss}) => {
     const [details, setDetails] = useState(defaultDetails)
-    const classes = useStyles()
-    const taskTypes: TaskType[] = ["theory", "text", "sort", "single", "mult", "match"]
     
     const handleSave = () => {
         onSave(details)
@@ -65,15 +65,13 @@ const ComponentConstructor: React.FC<IComponentConstructorProps> = ({open, onSav
                 <FormControl >
                     <Select
                     value={details.componentType}
-                    onChange={(event: React.ChangeEvent<{ value: unknown }>) => setDetails({...details, componentType: (event.target.value as TaskType)})}
+                    onChange={(event: React.ChangeEvent<{ value: unknown }>) => setDetails({...details, componentType: (event.target.value as LessonComponentType)})}
                     >
-                        {taskTypes.map(t => 
-                                <MenuItem value={t} key={t}>{t}</MenuItem>
-                            )}
-                        
+                        <MenuItem value={"theory"} >Theoretical</MenuItem>
+                        <MenuItem value={"practice"}>Practical</MenuItem>
                     </Select>
                 </FormControl>
-                
+
                 <TextField 
                     type="number"
                     name="acceptancePercantage"
@@ -100,6 +98,12 @@ const ComponentConstructor: React.FC<IComponentConstructorProps> = ({open, onSav
                     }}
                     onChange={e => setDetails(data => ({...data, content:e.target.getContent() }))}
                 /> 
+                {details.componentType === "practice" &&
+                    <TextField 
+                        label="Right answer"
+                        value={details.answer}
+                        onChange={(e)=> setDetails({...details, answer: e.target.value  })} />
+                }
 
             <div className="constructor--actions">
                     <Button onClick={handleCancel}>

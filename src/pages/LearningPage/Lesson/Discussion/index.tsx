@@ -33,20 +33,20 @@ const Discussion: React.FC<DiscussionProps> = ({componentId, comments, onAddComm
 
     return(
         <section className="discussion-section">
-            <header className="section-header">
+            <header className="discussion-header">
                 <h3 className="component-title">Disscuss</h3>
             </header>
-            <div >
-                            <TextField placeholder="Enter comment" value={text} onChange={e => setText(e.target.value)}/>
-                            <Button onClick={onSend}>Leave a comment</Button>
-                    </div>
+            <div className="discussion-invite">
+                    <TextField placeholder="Enter comment" value={text} onChange={e => setText(e.target.value)}/>
+                    <Button onClick={onSend}>Leave a comment</Button>
+            </div>
             { loading ? <Loader /> :
                 <div className="discussion">
                     
                     {
                         comments && comments.length > 0 ? comments.map( c => 
                             <div className="comment"> 
-                                    <span className="">{`${c.user.firstname} ${c.user.lastname}`}</span>
+                                    <span className="preview--creator">{`${c.creator}`}</span>
                                     <p>{c.text}</p>
                                 </div> 
                             

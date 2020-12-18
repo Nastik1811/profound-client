@@ -23,7 +23,7 @@ const ComponentBlock: React.FC<IComponentBlockProps> = ({id, maxPoints, content,
     return(
         <div className="component-block">
             <span>#</span>
-            <span>{content}</span>
+            <span></span>
             <span>{componentType}</span>
             <span>{maxPoints}</span>
             <div className="lesson-block--actions">

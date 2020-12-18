@@ -14,7 +14,7 @@ import ModuleSection from './ModulesSection'
 const CourseOverview = () => {
     const {course_id} = useParams<RouteParamsType>()
     const {token, userId} = useContext(AuthContext)
-    const {request} = useHttp(token)
+    const {request, loading} = useHttp(token)
     const history = useHistory()
     const [course, setCourse] = useState<ICourse|undefined>(undefined)
     const [modules, setModules] = useState<IModule[] | undefined>(undefined)
@@ -26,6 +26,9 @@ const CourseOverview = () => {
             const data = await request(`https://profound-web-app.azurewebsites.net/api/course/${course_id}`)
             if(data.course.status === "on_moderation"){
                 throw new Error(`The "${data.course.title}" course is on moderation now. Please, try again later`)
+            }
+            if(data.course.status === "rejected"){
+                throw new Error(`The "${data.course.title}" course has been rejected by administrator with message: ${data.course.rejectMessage}.`)
             }
             setCourse(data.course)
             setModules(data.course.modules)
@@ -87,14 +90,14 @@ const CourseOverview = () => {
             <div className="overview-actions">
                 {!isAuthor && isEnrolled && <Link className="to-next" to={`/learn/${course_id}`}>Go to course</Link>}
                 {!isEnrolled && !isAuthor && <Link className="to-next" to={`/payment/${course_id}`}>Enroll</Link>}
-                {isAuthor && <Link className="to-next" to={`${history.location.pathname}/constructor`}>Edit</Link>}
-                {isAuthor && <button className="to-next" onClick={publishCourse}>Publish</button>}
+                {isAuthor && course.status === "dev" && <Link className="to-next" to={`${history.location.pathname}/constructor`}>Edit</Link>}
+                {isAuthor && course.status === "dev" && <button className="to-next" onClick={publishCourse}>Publish</button>}
             </div>
             <hr className="header--hr mt-2"/>
         </section>
 
-
-        {isAuthor && <ModuleSection 
+        {isAuthor && 
+            loading ? <Loader/> : <ModuleSection 
             modules={modules ? modules : []}
             onAdd={() => history.push(`${history.location.pathname}/constructor`)}
             onDelete={handleDelete}
